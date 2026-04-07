@@ -1,0 +1,44 @@
+from zk import ZK #pyzk library
+
+# All methords of this class starts at capital letter to avoid confusion with the pyzk library methords which starts with small letter
+class Zk_device :
+    def __init__(self,ip,port,timeout,device_name):
+        self.device_name=device_name
+        self.ip_address=ip
+        self.port=port
+        self.timeout=timeout
+
+    def Connect(self):
+        zk=ZK(self.ip_address,self.port,self.timeout)
+        try:
+            print("Connecting to device......")
+            self.connection=zk.connect()
+            print("Disabling device......")
+            self.connection.disable_device()
+            return self.connection
+
+        except Exception as e:
+            print(f"Process failed : {e}")
+
+
+
+    def Disconnect(self):
+        if self.connection:
+            self.connection.enable_device()
+            self.connection.disconnect()
+
+
+    def Fetch_users(self):
+        try :
+            users=self.connection.get_users()
+            return users
+        except Exception as e :
+            print(f"Error Occured : {e}")
+
+    
+    def Fetch_attendance(self):
+        try :
+            attendance=self.connection.get_attendance()
+            return attendance
+        except Exception as e :
+            print(f"Error Occured : {e}")

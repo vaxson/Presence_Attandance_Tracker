@@ -1,0 +1,134 @@
+import sqlite3
+
+'''
+Methords and definitions for database handling and operations.
+* __get_dbconnection__() : Establishes a connection to the SQLite database. (INTERNAL USE ONLY)
+
+* create_user_tables(device_name) : Creates a user table for the specified device if it doesn't already exist
+.
+* create_attendance_tables(device_name) : Creates an attendance table for the specified device if it doesn't already
+ exist.
+* push_user(Modeluser) : Inserts user data into the corresponding user table in the database.
+
+* push_attendance(Modelattendance) : Inserts attendance data into the corresponding attendance table in the database.
+
+* fetch_attendance_table(device_name) : Fetches attendance data from the corresponding attendance table for the specified device.
+
+* fetch_user_table(device_name) : Fetches user data from the corresponding user table for the specified device.
+
+* drop_table(table) : Drops the specified table from the database.
+'''
+
+def __get_dbconnection__():
+    db_connection=sqlite3.connect("database/attendance.db")
+    return db_connection
+
+#create user table for device
+def create_user_tables(device_name):
+    User_tablename=device_name+"_users"
+    db_connection=__get_dbconnection__()
+    cursor=db_connection.cursor()
+    cursor.execute(f'''CREATE TABLE IF NOT EXISTS {User_tablename} (
+                        uid INTEGER PRIMARY KEY,
+                        name TEXT NOT NULL,
+                        password TEXT NOT NULL
+                    )''')
+    db_connection.commit()
+
+
+#create attendance table for device
+def create_attendance_tables(device_name):
+    Attendance_tablename=device_name+"_attendance"
+    db_connection=__get_dbconnection__()
+    cursor=db_connection.cursor()
+    cursor.execute(f'''CREATE TABLE IF NOT EXISTS {Attendance_tablename} (
+                        uid INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name INTEGER NOT NULL,
+                        timestamp DATETIME NOT NULL)''')
+    db_connection.commit()
+    db_connection.close()
+
+
+
+#push user data to database
+def push_user(device_name,Modeluser):
+    table_name=Modeluser[0].device_name+"_users"
+    db_connection=__get_dbconnection__()
+    cursor=db_connection.cursor()
+    create_user_tables(Modeluser[0].device_name)
+    for user in Modeluser :
+        cursor.execute(f'''INSERT INTO {table_name} 
+                       (uid, name, password) 
+                       VALUES (?, ?, ?)''', 
+                       (user.uid, user.name, user.password))
+        
+    db_connection.commit()
+    db_connection.close()
+
+#push attendance data to database
+def push_attendance(device_name,Modelattendance):
+    attendance_tablename=Modelattendance[0].device_name+"_attendance"
+    db_connection=__get_dbconnection__()
+    create_attendance_tables(Modelattendance[0].device_name)
+    cursor=db_connection.cursor()
+    for attendance in Modelattendance :
+        cursor.execute(f'''INSERT INTO {attendance_tablename} 
+                       (uid,name, timestamp) VALUES(?, ?, ?)''', 
+                       (attendance.punchid, attendance.uid, attendance.timestamp))
+    db_connection.commit()
+    db_connection.close()
+
+#fetching data from database
+def fetch_attendance_table(device_name) :
+    table_name=device_name+"_attendance"
+    print("Fetching attenance......")
+    dbconnection=__get_dbconnection__()
+    cursor=dbconnection.cursor()
+    cursor.execute(f'''SELECT * FROM {table_name}''')
+    rows=cursor.fetchall()
+    dbconnection.close()
+    return rows
+
+#fetching data from database
+def fetch_user_table(device_name) :
+    table_name=device_name+"_users"
+    print("Fetching users......")
+    dbconnection=__get_dbconnection__()
+    cursor=dbconnection.cursor()
+    cursor.execute(f'''SELECT * FROM {table_name}''')
+    rows=cursor.fetchall()
+    dbconnection.close()
+    return rows
+
+
+#droping a table from database
+def drop_table(table):
+    db_connection=__get_dbconnection__()
+    cursor=db_connection.cursor()
+    print(f"Deleting {table} table.....")
+    cursor.execute(f'''DROP TABLE IF EXISTS {table}''')
+    db_connection.commit()
+    db_connection.close()
+
+def fetch_attendance_user_date_range(device_name,user_id,start_date,end_date) :
+    attendance_tablename=device_name+"_attendance"
+    user_tablename=device_name+"_users"
+    print("Fetching attenance......")
+    dbconnection=__get_dbconnection__()
+    cursor=dbconnection.cursor()
+    cursor.execute(f'''SELECT {attendance_tablename}.uid,{user_tablename}.name, 
+                   {attendance_tablename}.timestamp FROM {attendance_tablename} 
+                   JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 
+                   WHERE {user_tablename}.uid={user_id} AND {attendance_tablename}.timestamp BETWEEN ? AND ?''', (start_date, end_date))
+    rows=cursor.fetchall()
+    dbconnection.close()
+    return rows
+
+def combine_attendance_user() :
+    db_connection=__get_dbconnection__()
+    cursor=db_connection.cursor()
+    cursor.execute(''' SELECT attendance.uid,users.name, attendance.timestamp FROM attendance JOIN users ON attendance.name = users.uid''')
+    rows=cursor.fetchall()
+    db_connection.close()
+    print(rows)
+    return rows
