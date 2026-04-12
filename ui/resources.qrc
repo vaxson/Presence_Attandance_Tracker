@@ -1,10 +1,8 @@
 <RCC>
-  <qresource prefix="logos">
-    <file>images/notifications_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</file>
-    <file>microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</file>
-    <file>analytics_60dp_000000_FILL0_wght100_GRAD200_opsz48.png</file>
-    <file>float_landscape_2_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</file>
-    <file>float_landscape_2_60dp_000000_FILL0_wght100_GRAD200_opsz48.png</file>
-    <file>flip_to_front_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</file>
+  <qresource prefix="config_icons">
+    <file>router_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>nest_remote_comfort_sensor_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>laptop_mac_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>lan_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
   </qresource>
 </RCC>

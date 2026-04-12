@@ -3,49 +3,83 @@ from PySide6.QtWidgets import QApplication,QTableWidgetItem,QLabel
 from PySide6.QtUiTools import QUiLoader
 from utils.helper.ClickFilter import ClickFilter
 import resources_rc
+from ui.handlers import *
 
-print("Enter IP address of the device : ")
-ipaddress="169.254.241.222"
-dev1=get_device_connection(ipaddress,"k30")
+device_list=[]
+device1_ipaddress="192.168.1.1"
+device1_name="k30"
+
+device_1=get_device_connection(device1_ipaddress,4730,device1_name)
+
+
+#device_2=get_device_connection(device_2_ipaddress,device_2_name)
+
+
 #user_data=fetch_users_from_db(dev1)
-data=fetch_attendance_user_daterange(dev1,5,"2025-02-01 00:00:00","2025-03-01 00:00:00") 
+data=fetch_attendance_user_daterange(device_1,5,"2025-02-01 00:00:00","2025-03-01 00:00:00") 
 user_data=analyze(data[0], data[1], data[2])
 
 '''Callback Functions'''
-
-def handle_click(obj):
-    print("Clicked on : ",obj.objectName())
-    if(obj.objectName()=="lable_user_machine1"):
-        print("Clicked on user machine 1")
-        window.stackedwidget_content_area.addWidget(machine1_user_page)
-        window.stackedwidget_content_area.setCurrentWidget(machine1_user_page)
-        window.frame_analyitics.setVisible(True)
-
-    if(obj.objectName()=="lable_machine1_configure"):
-        print("Clicked on machine 1 configure")
-        window.stackedwidget_content_area.addWidget(machine1_configuration)
-        window.stackedwidget_content_area.setCurrentWidget(machine1_configuration)
+def handle_click(obj) :
+    pass
 
 #callback for user button machine 1 and 2
 def user_btn_clicked(obj) :
-    if(obj.objectName()=="label_user_machine1") :
+    name=obj.objectName()
+    if("label_user_machine1" in name) :
         print("Clicked on user machine 1")
-    elif(obj.objectName=="label_users_machine2") :
+        window.stackedwidget_content_area.setCurrentWidget(machine1_user_page)
+    elif("label_users_machine2" in name) :
         print("Clicked on user machine 2")
 
 #callback for attendance button machine 1 and 2  
 def attandance_btn_clicked(obj) :
-    if(obj.objectName()=="label_attandance_machine1") :
+    name=obj.objectName()
+    if("label_attandance_machine1" in name) :
         print("Clicked on attendance machine 1")
-    elif(obj.objectName()=="label_attandance_machine2") :
+
+    elif("label_attandance_machine2" in name) :
         print("Clicked on attendance machine 2")
     
 #callback for configuration button machine 1 and 2
 def configuration_btn_clicked(obj) :
-    if(obj.objectName()=="label_configure_machine1") :
+    name=obj.objectName()
+    if("label_configure_machine1" in name) :
         print("Clicked on configuration machine 1")
-    elif(obj.objectName()=="label_configure_machine2") :
+        window.stackedwidget_content_area.setCurrentWidget(configuration_device1)
+        configuration_device1.machine_name.setText("Machine 1 Configuration")
+        
+
+    elif("label_configure_machine2" in name) :
         print("Clicked on configuration machine 2")
+
+#callback function for test connection
+def button_clicked(obj) :
+    name="btn_test_connection"
+    parent=configuration_device1
+   
+    if(True) :
+        if("btn_test_connection" in name) :
+            configuration_device1.ping_status.setText("Please wait...")
+            configuration_device1.ping_status.setText("Connenction OK")
+            result=test_connection(configuration_device1.ipaddress.text(),int(configuration_device1.portnumber.text()))
+            print("test connection")
+            configuration_device1.ping_status.setVisible(True)
+            if(result["success"]==True) :
+                configuration_device1.ping_status.setText("Connenction OK")
+            elif(result["success"]==False) :
+                configuration_device1.ping_status.setText(result["status"])
+
+        elif("cancel" in name) :
+            pass
+        elif("save" in name) :
+            pass
+        
+    elif (parent=="configuration_device_2") :
+        pass
+
+
+
 
 
 
@@ -61,15 +95,26 @@ def showhide_machineSubbuttons(status):
 
 app=QApplication([])
 loader=QUiLoader()
+
+#Ui loads
+configuration_device1=loader.load("ui/configuration.ui")
+configuration_device1.device_id=1
 window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/mainV2.ui")
+machine1_user_page=loader.load("ui/users.ui")
+window.stackedwidget_content_area.addWidget(machine1_user_page)
+window.stackedwidget_content_area.addWidget(configuration_device1)
 window.frame_analyitics.hide()
 window.widget_sub_machine1.setVisible(False)
+window.widget_sub_machine2.setVisible(False)
+
 
 #clickfilter function to detect click on label and show user data in table
 window.clickfilter=ClickFilter(handle_click)
 window.users_click=ClickFilter(user_btn_clicked)
 window.attendance_click=ClickFilter(attandance_btn_clicked)
 window.configuration_click=ClickFilter(configuration_btn_clicked)
+
+configuration_device1.btn_test_connection.clicked.connect(button_clicked)
 
 window.label_users_machine1.installEventFilter(window.users_click)
 window.label_attandance_machine1.installEventFilter(window.attendance_click)
@@ -80,14 +125,14 @@ window.label_configure_machine2.installEventFilter(window.configuration_click)
 
 
 
+
 label1=window.lab_table_name.setText("Users List")
 window.rbtn_machine1.toggled.connect(showhide_machineSubbuttons)
 
-machine1_user_page=loader.load("ui/users.ui")
-machine1_configuration=loader.load("ui/configuration.ui")
 
 
-table=machine1_user_page.tableWidget
+
+
 table = machine1_user_page.tableWidget
 table.horizontalHeader().setVisible(True)
 table.horizontalHeader().setFixedHeight(50)

@@ -7,6 +7,7 @@ class Zk_device :
         self.ip_address=ip
         self.port=port
         self.timeout=timeout
+        self.connection=None
 
     def Connect(self):
         zk=ZK(self.ip_address,self.port,self.timeout)
@@ -15,10 +16,11 @@ class Zk_device :
             self.connection=zk.connect()
             print("Disabling device......")
             self.connection.disable_device()
-            return self.connection
+            return { "success": True, "object": self.connection }
 
         except Exception as e:
             print(f"Process failed : {e}")
+            return { "success": False, "object": str(e) }
 
 
 
@@ -42,3 +44,6 @@ class Zk_device :
             return attendance
         except Exception as e :
             print(f"Error Occured : {e}")
+
+   
+            

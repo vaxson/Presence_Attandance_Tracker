@@ -1,2 +1,1 @@
-
-window.stackedwidget_content_area.addWidget(user_page)
+192.168.1.1

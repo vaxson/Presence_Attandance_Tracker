@@ -5,8 +5,8 @@ from database.sqlite_db import *
 from services.analytics import *
 
 #Device operations.
-def get_device_connection(ipaddress,device_name):
-    device=Zk_device(ipaddress,port=4370,timeout=5,device_name=device_name)
+def get_device_connection(ipaddress,port_number,device_name) :
+    device=Zk_device(ipaddress,port=port_number,timeout=5,device_name=device_name)
     device.Connect()
     return device
 
@@ -86,7 +86,18 @@ def push_attendance_to_db(device,Modelattendance):
         return e
     
 
-    '''Analyzer '''
+def test_connection(ipaddress,port_number) :
+    device_name="Test_Device"
+    device=Zk_device(ipaddress,port=port_number,timeout=5,device_name=device_name)
+    test_status=device.Connect()
+
+    if(test_status["success"]!= False) :
+        device.Disconnect()
+        return {"success":True,"status":"Connection successful."}
+    else :
+        return {"success":False,"status":test_status['object']}
+
+
 
 def analyze(datarows, start_date,end_date) :
     return attendance_analyze(datarows,start_date=start_date,end_date=end_date)

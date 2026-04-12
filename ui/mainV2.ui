@@ -231,7 +231,7 @@ QFrame[active=&quot;true&quot;] {
                       <string/>
                      </property>
                      <property name="pixmap">
-                      <pixmap resource="resources.qrc">:/logos/flip_to_front_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</pixmap>
+                      <pixmap>:/logos/flip_to_front_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</pixmap>
                      </property>
                      <property name="margin">
                       <number>-15</number>
@@ -338,7 +338,7 @@ QRadioButton::indicator {
                     <string>Machine : 1</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="resources.qrc">
+                    <iconset>
                      <normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -538,7 +538,7 @@ QRadioButton::indicator {
                     <string>Machine : 1</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="resources.qrc">
+                    <iconset>
                      <normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</iconset>
                    </property>
                    <property name="iconSize">
@@ -970,23 +970,10 @@ background-color : #FFFFFF;
 border-radius :0px;</string>
                   </property>
                   <widget class="QWidget" name="page">
-                   <layout class="QHBoxLayout" name="horizontalLayout_10">
-                    <item>
-                     <widget class="QLabel" name="label_2">
-                      <property name="font">
-                       <font>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>No Data Available</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                   <property name="styleSheet">
+                    <string notr="true">background-color : cyan;</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_10"/>
                   </widget>
                   <widget class="QWidget" name="page_2">
                    <property name="layoutDirection">

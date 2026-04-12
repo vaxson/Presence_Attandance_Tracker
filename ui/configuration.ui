@@ -12,8 +12,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>500</width>
-    <height>400</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -26,7 +26,26 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color : #E6ECE8</string>
+   <string notr="true">background-color : #E6ECE8;
+QPushButton {
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #333;
+}
+
+QPushButton:hover {
+    background-color: #f0f0f0;
+}
+
+QPushButton:pressed {
+    background-color: #e0e0e0;
+}
+
+QPushButton[active=&quot;true&quot;] {
+    background-color: #1f6feb;
+    color: white;
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
@@ -37,7 +56,7 @@
      <item>
       <widget class="QFrame" name="side_bar">
        <property name="styleSheet">
-        <string notr="true">background-color :rgb(0, 0, 0)</string>
+        <string notr="true">background-color :rgb(200, 200, 200)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -75,12 +94,21 @@
              <item>
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
-                <widget class="QLabel" name="macine_name">
+                <widget class="QLabel" name="machine_name">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="styleSheet">
-                  <string notr="true">color : white</string>
+                  <string notr="true">color : black</string>
                  </property>
                  <property name="text">
                   <string>TextLabel</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
                  </property>
                 </widget>
                </item>
@@ -119,13 +147,13 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="macine_name_2">
+              <widget class="QLabel" name="status">
                <property name="styleSheet">
-                <string notr="true">color : white
+                <string notr="true">color : red
 </string>
                </property>
                <property name="text">
-                <string>TextLabel</string>
+                <string>_</string>
                </property>
               </widget>
              </item>
@@ -174,7 +202,7 @@ background-color : white;</string>
            <widget class="QWidget" name="widget" native="true">
             <property name="minimumSize">
              <size>
-              <width>500</width>
+              <width>0</width>
               <height>100</height>
              </size>
             </property>
@@ -197,10 +225,16 @@ background-color : white;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
                   <widget class="QLabel" name="label_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="minimumSize">
                     <size>
-                     <width>11</width>
-                     <height>10</height>
+                     <width>0</width>
+                     <height>50</height>
                     </size>
                    </property>
                    <property name="font">
@@ -217,7 +251,7 @@ background-color : white;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit">
+                  <widget class="QLineEdit" name="devcename">
                    <property name="placeholderText">
                     <string>ESSL K30</string>
                    </property>
@@ -229,6 +263,18 @@ background-color : white;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_7">
                  <item>
                   <widget class="QLabel" name="label_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>50</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <bold>true</bold>
@@ -240,7 +286,7 @@ background-color : white;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_3">
+                  <widget class="QLineEdit" name="ipaddress">
                    <property name="placeholderText">
                     <string>198.168.1.1</string>
                    </property>
@@ -252,18 +298,30 @@ background-color : white;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
                   <widget class="QLabel" name="label_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>50</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
-                    <string>Port Numbrt</string>
+                    <string>Port Number</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_2">
+                  <widget class="QLineEdit" name="portnumber">
                    <property name="placeholderText">
                     <string>4380</string>
                    </property>
@@ -293,14 +351,23 @@ background-color : white;</string>
            <widget class="QWidget" name="wid_buttons_panel" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="ping_status">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>50</height>
+                </size>
+               </property>
                <property name="font">
                 <font>
                  <bold>true</bold>
                 </font>
                </property>
+               <property name="styleSheet">
+                <string notr="true">color: red</string>
+               </property>
                <property name="text">
-                <string>Device Name</string>
+                <string>_</string>
                </property>
               </widget>
              </item>
@@ -319,29 +386,107 @@ background-color : white;</string>
                 <number>3</number>
                </property>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="btn_test_connection">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    background-color: transparent;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #333;
+}
+
+QPushButton:hover {
+    background-color: black;
+    border: 1px solid #c0c0c0;
+	color : white;
+}
+
+QPushButton:pressed {
+    background-color: #dcdcdc;
+	
+}
+
+QPushButton#secondary {
+    background-color: #eef4ff;
+    border: 1px solid #c7d8ff;
+    color: #1f6feb;
+}
+
+QPushButton#secondary:hover {
+    background-color: #dce8ff;
+}</string>
+                 </property>
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Test Connection</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="btn_cancel">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	background-color: #f5f5f5;
+    border: 1px solid #d0d0d0;
+    color: #555;
+    border-radius: 6px;
+    padding: 6px 12px;
+    
+}
+
+QPushButton:hover {
+   
+    border: 1px solid #c0c0c0;
+	 background-color: red;
+	color : white;
+}
+
+QPushButton:pressed {
+    background-color: #dcdcdc;
+}
+
+
+</string>
+                 </property>
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Cancel</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="btn_save">
                  <property name="minimumSize">
                   <size>
                    <width>50</width>
-                   <height>50</height>
+                   <height>30</height>
                   </size>
                  </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+	background-color: blue;
+    border: 1px solid #d0d0d0;
+    color: #555;
+    border-radius: 6px;
+    padding: 6px 12px;
+	color : white;
+    
+}
+
+QPushButton:hover {
+   
+    border: 1px solid #c0c0c0;
+	 background-color: lightgreen;
+	color : black;
+}
+
+QPushButton:pressed {
+    background-color: #dcdcdc;
+}
+
+</string>
+                 </property>
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Save_</string>
                  </property>
                 </widget>
                </item>
