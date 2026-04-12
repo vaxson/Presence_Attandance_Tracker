@@ -4,9 +4,12 @@ from PySide6.QtUiTools import QUiLoader
 from utils.helper.ClickFilter import ClickFilter
 import resources_rc
 from ui.handlers import *
+from threading import Thread
+
+
 
 device_list=[]
-device1_ipaddress="192.168.1.1"
+device1_ipaddress="192.168.1.1" 
 device1_name="k30"
 
 device_1=get_device_connection(device1_ipaddress,4730,device1_name)
@@ -61,14 +64,7 @@ def button_clicked(obj) :
     if(True) :
         if("btn_test_connection" in name) :
             configuration_device1.ping_status.setText("Please wait...")
-            configuration_device1.ping_status.setText("Connenction OK")
-            result=test_connection(configuration_device1.ipaddress.text(),int(configuration_device1.portnumber.text()))
-            print("test connection")
-            configuration_device1.ping_status.setVisible(True)
-            if(result["success"]==True) :
-                configuration_device1.ping_status.setText("Connenction OK")
-            elif(result["success"]==False) :
-                configuration_device1.ping_status.setText(result["status"])
+            Thread(target=test_connection_clicked,args=(device1_ipaddress,4730,update_test_connection_status)).start()
 
         elif("cancel" in name) :
             pass
