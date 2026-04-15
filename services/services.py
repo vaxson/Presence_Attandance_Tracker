@@ -96,6 +96,31 @@ def test_connection(ipaddress,port_number) :
         return {"success":True,"status":"Connection successful."}
     else :
         return {"success":False,"status":test_status['object']}
+    
+
+def configuration_save(configuration_id,device_name,device_ip,device_port) :
+    #save the configuration to database or file
+    if(test_connection(device_ip,device_port)['success']) :
+        try :
+            print(f"Configuration saved for device {device_name} with IP {device_ip} and port {device_port}")
+            store_device_information(configuration_id, device_name, device_ip, device_port)
+            return {"success":True,"status":"Saved Successfully."}
+        except Exception as e:
+            return {"success":False,"status":str(e)}
+    else :
+        return {"success":False,"status":"Failed to save configuration. Cross check the device details."}
+
+def configuration_retrieve_db(configuration_id) :
+    #retrieve the configuration from database or file
+    try :
+        saved_configuration=retrieve_device_information(configuration_id)
+        if(saved_configuration) :
+            print(f"Configuration retrieved for device {saved_configuration[1]} with IP {saved_configuration[2]} and port {saved_configuration[3]}")
+            return {"success":True,"configuration":saved_configuration}
+        else :
+            return {"success":False,"configuration":False}
+    except Exception as e:
+        return {"success":False,"configuration":str(e)}
 
 
 

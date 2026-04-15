@@ -251,7 +251,7 @@ background-color : white;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="devcename">
+                  <widget class="QLineEdit" name="devicename">
                    <property name="placeholderText">
                     <string>ESSL K30</string>
                    </property>

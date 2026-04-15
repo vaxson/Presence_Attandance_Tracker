@@ -62,10 +62,13 @@ def configuration_btn_clicked(obj) :
         print("Clicked on configuration machine 1")
         window.stackedwidget_content_area.setCurrentWidget(configuration_device1.ui)
         configuration_device1.ui.machine_name.setText("Machine 1 Configuration")
+        Thread(target=configuration_device1.configuration_retrieve).start()
+
     elif("label_configure_machine2" in name) :
         print("Clicked on configuration machine 2") 
         window.stackedwidget_content_area.setCurrentWidget(configuration_device2.ui)
         configuration_device2.ui.machine_name.setText("Machine 2 Configuration")
+        Thread(target=configuration_device2.configuration_retrieve).start()
 
 #callback function for test connection
 def test_button_clicked(configuration) :
@@ -76,6 +79,10 @@ def test_button_clicked(configuration) :
 
 def cancel_clicked() :
     window.stackedwidget_content_area.setCurrentWidget(machine1_user_page)
+
+def configuration_save_clicked(configuration) :
+    configuration.ui.ping_status.setText("Saving configuration, please wait...")
+    Thread(target=configuration.save_clicked).start()
     
 
         
@@ -85,7 +92,7 @@ def cancel_clicked() :
 
 
 # UI actions functions :
-def showhide_machineSubbuttons(status):
+def showhide_machineSubbuttons(status) :
     if status :
         window.widget_sub_machine2.setVisible(False)
         window.widget_sub_machine1.setVisible(True)
@@ -102,8 +109,8 @@ window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/mainV
 machine1_user_page=loader.load("ui/users.ui")
 window.stackedwidget_content_area.addWidget(machine1_user_page)
 window.stackedwidget_content_area.addWidget(configuration_device1.ui)
-window.stackedwidget_content_area.addWidget(configuration_device2.ui)
-window.frame_analyitics.hide()
+window.stackedwidget_content_area.addWidget(configuration_device2.ui)   
+window.frame_analyitics.setVisible(False)
 window.widget_sub_machine1.setVisible(False)
 window.widget_sub_machine2.setVisible(False)
 
@@ -118,6 +125,8 @@ configuration_device1.ui.btn_test_connection.clicked.connect(lambda :test_button
 configuration_device2.ui.btn_test_connection.clicked.connect(lambda :test_button_clicked(configuration_device2))
 configuration_device1.ui.btn_cancel.clicked.connect(cancel_clicked)
 configuration_device2.ui.btn_cancel.clicked.connect(cancel_clicked)
+configuration_device1.ui.btn_save.clicked.connect(lambda: configuration_save_clicked(configuration_device1))
+configuration_device2.ui.btn_save.clicked.connect(lambda: configuration_save_clicked(configuration_device2))
 
 
 window.label_users_machine1.installEventFilter(window.users_click)
@@ -131,7 +140,7 @@ window.widget_sub_machine1.setVisible(True)
 window.widget_sub_machine2.setVisible(True)
 
 
-label1=window.lab_table_name.setText("Users List")
+window.lab_table_name.setText("Users List")
 #window.rbtn_machine1.toggled.connect(showhide_machineSubbuttons)
 
 

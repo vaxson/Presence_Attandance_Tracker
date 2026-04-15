@@ -132,3 +132,25 @@ def combine_attendance_user() :
     db_connection.close()
     print(rows)
     return rows
+
+
+def store_device_information(device_id,device_name,ip_address,port_number) :
+    db_connection=sqlite3.connect("database/devices.db")
+    cursor=db_connection.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS devices (
+                        device_id INTEGER PRIMARY KEY,
+                        device_name TEXT NOT NULL,
+                        ip_address TEXT NOT NULL,
+                        port_number INTEGER NOT NULL)''')
+    cursor.execute('''INSERT OR REPLACE INTO devices (device_id, device_name, ip_address, port_number) VALUES (?, ?, ?, ?)''', (device_id, device_name, ip_address, port_number))
+    db_connection.commit()
+    db_connection.close()
+
+
+def retrieve_device_information(device_id) :
+    db_connection=sqlite3.connect("database/devices.db")
+    cursor=db_connection.cursor()
+    cursor.execute('''SELECT * FROM devices WHERE device_id = ?''', (device_id,))
+    rows=cursor.fetchone()
+    db_connection.close()
+    return rows
