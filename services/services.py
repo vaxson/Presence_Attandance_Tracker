@@ -12,11 +12,17 @@ def get_device_connection(ipaddress,port_number,device_name) :
 
 def fetch_user_from_device(device):
     users=device.Fetch_users()
-    modelusers=[]
-    for user in users:
-        Modeluser=Users(user.uid,user.name,user.password,device.device_name)
-        modelusers.append(Modeluser)
-    return modelusers
+    if(users["success"]) :
+        modelusers=[]
+        for user in users["result"]:
+            Modeluser=Users(user.uid,user.name,user.password,device.device_name)
+            modelusers.append(Modeluser)
+        return modelusers
+    elif(users["success"]==False) :
+        return {"success":False,"result":users["result"]}
+    
+
+        
 
 def fetch_attendance_from_device(device) :
     attendance=device.Fetch_attendance()
@@ -52,9 +58,25 @@ def fetch_attendance_from_db(device):
 
 def fetch_users_from_db(device):
     rows=fetch_user_table(device.device_name)
-    for row in rows:
-        print(f"User Id: {row[0]}, Name: {row[1]}, Password: {row[2]}")
-    return rows 
+    if(rows["success"]) :
+        return {"success":True,"result":rows["result"]}
+    else :
+        return {"success":False,"result":rows["result"]}
+
+
+
+#fetch only salary and ot information of users from database.
+#used to show this data in UI (users Page).
+def fetch_users_salary_isOtEnabled_from_db(device) :
+    result=fetch_user_salary_isOtEnabled(device.device_name)
+    if(result["success"]) :
+        return {"success":True,"result":result["result"]}
+    else :
+        print(f"Error Occured : {result['result']}")
+        return {"success":False,"result":result["result"]}
+    
+
+
 
 def fetch_attendance_user_daterange(device,user_id,start_date,end_date):
     rows=fetch_attendance_user_date_range(device.device_name,user_id,start_date,end_date)

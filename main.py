@@ -41,7 +41,10 @@ def user_btn_clicked(obj) :
     name=obj.objectName()
     if("label_user_machine1" in name) :
         print("Clicked on user machine 1")
+        window.frame_analyitics.setVisible(True)  
         window.stackedwidget_content_area.setCurrentWidget(machine1_user_page)
+        
+
     elif("label_users_machine2" in name) :
         print("Clicked on user machine 2")
         
@@ -107,6 +110,8 @@ def showhide_machineSubbuttons(status) :
 
 window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/mainV2.ui")
 machine1_user_page=loader.load("ui/users.ui")
+machine2_user_page=loader.load("ui/users.ui")
+window.stackedwidget_content_area.addWidget(machine2_user_page)
 window.stackedwidget_content_area.addWidget(machine1_user_page)
 window.stackedwidget_content_area.addWidget(configuration_device1.ui)
 window.stackedwidget_content_area.addWidget(configuration_device2.ui)   

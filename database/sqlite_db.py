@@ -32,6 +32,8 @@ def create_user_tables(device_name):
                         uid INTEGER PRIMARY KEY,
                         name TEXT NOT NULL,
                         password TEXT NOT NULL
+                        isOtEnabled BOOLEAN,
+                        salary REAL
                     )''')
     db_connection.commit()
 
@@ -51,19 +53,21 @@ def create_attendance_tables(device_name):
 
 
 #push user data to database
-def push_user(device_name,Modeluser):
+def push_user(Modeluser):
     table_name=Modeluser[0].device_name+"_users"
     db_connection=__get_dbconnection__()
     cursor=db_connection.cursor()
     create_user_tables(Modeluser[0].device_name)
     for user in Modeluser :
-        cursor.execute(f'''INSERT INTO {table_name} 
-                       (uid, name, password) 
-                       VALUES (?, ?, ?)''', 
-                       (user.uid, user.name, user.password))
-        
+        cursor.execute(f'''INSERT OR REPLACE INTO {table_name} 
+                       (uid, name, password, isOtEnabled, salary) 
+                       VALUES (?, ?, ?, ?, ?)''', 
+                       (user.uid, user.name, user.password, user.isOtEnabled, user.salary))
     db_connection.commit()
     db_connection.close()
+
+
+
 
 #push attendance data to database
 def push_attendance(device_name,Modelattendance):
@@ -72,7 +76,7 @@ def push_attendance(device_name,Modelattendance):
     create_attendance_tables(Modelattendance[0].device_name)
     cursor=db_connection.cursor()
     for attendance in Modelattendance :
-        cursor.execute(f'''INSERT INTO {attendance_tablename} 
+        cursor.execute(f'''INSERT OR REPLACE INTO {attendance_tablename}  
                        (uid,name, timestamp) VALUES(?, ?, ?)''', 
                        (attendance.punchid, attendance.uid, attendance.timestamp))
     db_connection.commit()
@@ -91,14 +95,17 @@ def fetch_attendance_table(device_name) :
 
 #fetching data from database
 def fetch_user_table(device_name) :
-    table_name=device_name+"_users"
-    print("Fetching users......")
-    dbconnection=__get_dbconnection__()
-    cursor=dbconnection.cursor()
-    cursor.execute(f'''SELECT * FROM {table_name}''')
-    rows=cursor.fetchall()
-    dbconnection.close()
-    return rows
+    try :
+        table_name=device_name+"_users"
+        print("Fetching users......")
+        dbconnection=__get_dbconnection__()
+        cursor=dbconnection.cursor()
+        cursor.execute(f'''SELECT * FROM {table_name}''')
+        rows=cursor.fetchall()
+        dbconnection.close()
+        return {"success":True,"result":rows}
+    except Exception as e :
+        return {"success":False,"result":str(e)}
 
 
 #droping a table from database

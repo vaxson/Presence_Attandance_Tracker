@@ -33,17 +33,18 @@ class Zk_device :
     def Fetch_users(self):
         try :
             users=self.connection.get_users()
-            return users
+            return {"success":True,"result":users}
         except Exception as e :
             print(f"Error Occured : {e}")
+            return {"success":False,"result":str(e)}
 
     
     def Fetch_attendance(self):
         try :
             attendance=self.connection.get_attendance()
-            return attendance
+            return {"success":True,"result":attendance}
         except Exception as e :
             print(f"Error Occured : {e}")
+            return {"success":False,"result":str(e)}
 
-   
             

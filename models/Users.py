@@ -4,6 +4,8 @@ class Users :
         self.uid=uid
         self.name=name
         self.password=password
+        self.salary=0
+        self.isOtEnabled=False
 
     def db_push(self) :
         pass
