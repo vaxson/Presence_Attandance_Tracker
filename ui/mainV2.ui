@@ -251,9 +251,9 @@ QFrame[active=&quot;true&quot;] {
                      </property>
                      <property name="font">
                       <font>
-                       <family>Vivaldi</family>
-                       <pointsize>22</pointsize>
-                       <italic>true</italic>
+                       <family>Ubuntu Mono</family>
+                       <pointsize>15</pointsize>
+                       <italic>false</italic>
                        <bold>false</bold>
                        <underline>false</underline>
                       </font>
@@ -965,6 +965,9 @@ background-color : #FFFFFF;
                 </item>
                 <item>
                  <widget class="QStackedWidget" name="stackedwidget_content_area">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-color :rgb(240,240,240);
 border-radius :0px;</string>

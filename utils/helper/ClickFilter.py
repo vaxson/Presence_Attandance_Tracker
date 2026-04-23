@@ -7,8 +7,7 @@ class ClickFilter(QObject):
 
     def eventFilter(self,obj,event):
         if event.type()==QEvent.MouseButtonPress:
-            print("Clicked")
-            self.callback(obj)
-            return True
+           self.callback(obj)
+           return True
         else:
             return False

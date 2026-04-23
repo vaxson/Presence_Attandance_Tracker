@@ -31,9 +31,9 @@ def create_user_tables(device_name):
     cursor.execute(f'''CREATE TABLE IF NOT EXISTS {User_tablename} (
                         uid INTEGER PRIMARY KEY,
                         name TEXT NOT NULL,
-                        password TEXT NOT NULL
+                        password TEXT,
                         isOtEnabled BOOLEAN,
-                        salary REAL
+                        salary INTEGER
                     )''')
     db_connection.commit()
 

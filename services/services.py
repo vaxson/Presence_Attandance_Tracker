@@ -17,7 +17,10 @@ def fetch_user_from_device(device):
         for user in users["result"]:
             Modeluser=Users(user.uid,user.name,user.password,device.device_name)
             modelusers.append(Modeluser)
-        return modelusers
+        
+        push_user_to_db(modelusers)
+        return {"success":True,"result":modelusers}
+    
     elif(users["success"]==False) :
         return {"success":False,"result":users["result"]}
     
@@ -58,13 +61,25 @@ def fetch_attendance_from_db(device):
 
 def fetch_users_from_db(device):
     rows=fetch_user_table(device.device_name)
+    modelusers=[]
     if(rows["success"]) :
-        return {"success":True,"result":rows["result"]}
+        users=rows["result"]
+        for user in users :
+            Modeluser=Users(user[0],user[1],user[2],device.device_name)
+            try :
+                Modeluser.isOtEnabled=user[3]
+                Modeluser.salary=user[4]
+            except IndexError:
+                print("Error occurred while fetching user data from database.")
+                print(f"Name : {Modeluser.name}, UID : {Modeluser.uid}, password :{Modeluser.password}, isOtEnabled : {Modeluser.isOtEnabled}, salary : {Modeluser.salary} ")
+            modelusers.append(Modeluser)
+       
+        return {"success":True,"result":modelusers}
     else :
         return {"success":False,"result":rows["result"]}
 
 
-
+''''
 #fetch only salary and ot information of users from database.
 #used to show this data in UI (users Page).
 def fetch_users_salary_isOtEnabled_from_db(device) :
@@ -77,7 +92,7 @@ def fetch_users_salary_isOtEnabled_from_db(device) :
     
 
 
-
+'''
 def fetch_attendance_user_daterange(device,user_id,start_date,end_date):
     rows=fetch_attendance_user_date_range(device.device_name,user_id,start_date,end_date)
     for row in rows:
@@ -89,9 +104,9 @@ def fetch_attendance_user_daterange(device,user_id,start_date,end_date):
 * Make safty.
 * Same goes to the push_attendance_to_db methord.
 '''
-def push_user_to_db(device,Modeluser):
+def push_user_to_db(Modeluser):
     try :
-        push_user(device,Modeluser)
+        push_user(Modeluser)
         print("User data pushed to database successfully.")
         return True
     except Exception as e:
@@ -138,9 +153,9 @@ def configuration_retrieve_db(configuration_id) :
         saved_configuration=retrieve_device_information(configuration_id)
         if(saved_configuration) :
             print(f"Configuration retrieved for device {saved_configuration[1]} with IP {saved_configuration[2]} and port {saved_configuration[3]}")
-            return {"success":True,"configuration":saved_configuration}
+            return {"success":True,"configuration":"saved_configuration"}
         else :
-            return {"success":False,"configuration":False}
+            return {"success":False,"configuration":"No configuration found for the given ID."}
     except Exception as e:
         return {"success":False,"configuration":str(e)}
 
