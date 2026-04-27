@@ -5,12 +5,13 @@ from users_page import user_page
 from utils.helper.ClickFilter import ClickFilter
 import resources_rc
 from ui.configuration import ConfigurationDevice
+from ui.date_selection import Date_selection
 from threading import Thread
 
 app=QApplication([])
 loader=QUiLoader()
 
-
+date_selection=Date_selection()
 device_list=[]
 device1_ipaddress="169.254.241.222" 
 device1_name="k30"
@@ -51,7 +52,6 @@ def user_btn_clicked(obj) :
         if(not result) :
             machine1_user_page.ui.users_label.setText("Device Offline")
         print("Clicked on user machine 1")
-        # window.frame_analyitics.setVisible(True)  
         window.stackedwidget_content_area.setCurrentWidget(machine1_user_page.ui)
         machine1_user_page.display_users()
         #Thread(target=fetch_user_from_device, args=(device_1,)).start()
@@ -66,9 +66,17 @@ def attandance_btn_clicked(obj) :
     name=obj.objectName()
     if("label_attandance_machine1" in name) :
         print("Clicked on attendance machine 1")
+        date_selection.ui.exec()
+        start_date=date_selection.start_date
+        end_date=date_selection.end_date
+       
+        
 
     elif("label_attandance_machine2" in name) :
         print("Clicked on attendance machine 2")
+        date_selection.ui.exec()
+        start_date=date_selection.start_date
+        end_date=date_selection.end_date
     
 #callback for configuration button machine 1 and 2
 def configuration_btn_clicked(obj) :
@@ -130,7 +138,6 @@ window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/mainV
 window.stackedwidget_content_area.addWidget(machine1_user_page.ui)
 window.stackedwidget_content_area.addWidget(configuration_device1.ui)
 window.stackedwidget_content_area.addWidget(configuration_device2.ui)   
-window.frame_analyitics.setVisible(False)
 window.widget_sub_machine1.setVisible(False)
 window.widget_sub_machine2.setVisible(False)
 
@@ -163,8 +170,6 @@ window.label_configure_machine2.installEventFilter(window.configuration_click)
 window.widget_sub_machine1.setVisible(True)
 window.widget_sub_machine2.setVisible(True)
 
-
-window.lab_table_name.setText("Users List")
 #window.rbtn_machine1.toggled.connect(showhide_machineSubbuttons)
 
 

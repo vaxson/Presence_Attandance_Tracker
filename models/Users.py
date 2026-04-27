@@ -6,6 +6,4 @@ class Users :
         self.password=password
         self.salary=0
         self.isOtEnabled=False
-
-    def db_push(self) :
-        pass
+        self.attendance_timestamps=[]

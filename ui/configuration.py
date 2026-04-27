@@ -1,7 +1,6 @@
-from PySide6.QtWidgets import QTableWidgetItem,QLabel,QFrame
 from PySide6.QtUiTools import QUiLoader
 from services.services import test_connection,configuration_retrieve_db,configuration_save
-from PySide6.QtCore import QTimer
+
 
 class ConfigurationDevice :
     def __init__(self,id) :

@@ -55,9 +55,12 @@ def create_attendance_table_for_device(device):
 
 def fetch_attendance_from_db(device):
     rows=fetch_attendance_table(device.device_name)
+    ModelAttendance=[]
     for row in rows:
         print(f"User Id: {row[0]}, Name: {row[1]}, Timestamp: {row[2]}")
-    return rows
+        Modelattendance=Attendance(row[0],row[2],row[3],device.device_name)
+        ModelAttendance.append(Modelattendance)
+    return ModelAttendance
 
 def fetch_users_from_db(device):
     rows=fetch_user_table(device.device_name)
@@ -95,9 +98,12 @@ def fetch_users_salary_isOtEnabled_from_db(device) :
 '''
 def fetch_attendance_user_daterange(device,user_id,start_date,end_date):
     rows=fetch_attendance_user_date_range(device.device_name,user_id,start_date,end_date)
+    ModelAttendance=[]
     for row in rows:
         print(f"User Id: {row[0]}, Name: {row[1]}, Timestamp: {row[2]}")
-    return rows, start_date,end_date
+        Modelattendance=Attendance(row[0],row[2],row[3],device.device_name)
+        ModelAttendance.append(Modelattendance)
+    return ModelAttendance
 
 ''' 
 * Check if the model user object belong to the same device.

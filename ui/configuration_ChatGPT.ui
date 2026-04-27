@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>684</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Device Configuration</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+QLineEdit {
+    background-color: #3a3a4f;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 6px;
+    color: white;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4da3ff;
+}
+
+QPushButton {
+    background-color: #4da3ff;
+    border-radius: 6px;
+    padding: 8px;
+    font-weight: bold;
+    color: white;
+}
+
+QPushButton:hover {
+    background-color: #6db5ff;
+}
+
+QPushButton:pressed {
+    background-color: #2d7fd3;
+}
+</string>
+  </property>
+  <layout class="QHBoxLayout">
+   <item>
+    <widget class="QFrame" name="sidebar">
+     <property name="styleSheet">
+      <string notr="true">
+       background-color: #11111a;
+       color: white;
+       padding: 10px;
+      </string>
+     </property>
+     <layout class="QVBoxLayout">
+      <item>
+       <widget class="QLabel" name="app_name">
+        <property name="styleSheet">
+         <string notr="true">
+          font-size: 14pt;
+          font-weight: bold;
+         </string>
+        </property>
+        <property name="text">
+         <string>Attendance Tool</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>v1.0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="content_area">
+     <property name="styleSheet">
+      <string notr="true">
+       background-color: #1e1e2f;
+       border-radius: 10px;
+       padding: 15px;
+       color: white;
+      </string>
+     </property>
+     <layout class="QVBoxLayout">
+      <item>
+       <widget class="QLabel" name="title">
+        <property name="styleSheet">
+         <string notr="true">
+          font-size: 16pt;
+          font-weight: bold;
+         </string>
+        </property>
+        <property name="text">
+         <string>Device Configuration</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="card">
+        <property name="styleSheet">
+         <string notr="true">
+          background-color: #2a2a3d;
+          border-radius: 10px;
+          padding: 15px;
+         </string>
+        </property>
+        <layout class="QVBoxLayout">
+         <property name="spacing">
+          <number>12</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Device Name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="device_name_input">
+             <property name="placeholderText">
+              <string>ESSL K30</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>IP Address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="ip_input">
+             <property name="placeholderText">
+              <string>192.168.1.1</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Port Number</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="port_input">
+             <property name="placeholderText">
+              <string>4370</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout">
+        <property name="spacing">
+         <number>12</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="btn_test_connection">
+          <property name="text">
+           <string>Test Connection</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_save">
+          <property name="text">
+           <string>Save</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_cancel">
+          <property name="text">
+           <string>Cancel</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

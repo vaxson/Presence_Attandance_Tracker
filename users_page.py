@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QCheckBox, QLineEdit, QTableWidgetItem,QLabel,QFrame
+from PySide6.QtWidgets import QCheckBox, QLineEdit,QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader 
-from PySide6.QtCore import QTimer
+from PySide6.QtGui import QDoubleValidator
 from services.services import fetch_users_from_db,fetch_user_from_device,push_user_to_db
+
 
 '''
     * Note The user_page needs device object as the parameter 
@@ -16,6 +17,7 @@ class user_page() :
         loader=QUiLoader()
         self.ui=loader.load("ui/usersV2.ui")
         self.Modeluser=[]
+        self.validator=QDoubleValidator(0.00, 1000000.00, 2)
 
 
     def display_users(self) :
@@ -38,6 +40,8 @@ class user_page() :
                 salary_input=QLineEdit()
                 salary_input.user_id=user.uid
                 salary_input.setPlaceholderText("Salary")
+                salary_input.setValidator(self.validator)
+
 
                 if(user.isOtEnabled) :
                     ot_checkbox.setChecked(True)
@@ -49,7 +53,7 @@ class user_page() :
                 if(user.salary) :
                     salary_input.setText(str(user.salary))
                 else :
-                    pass
+                    pass  
                 self.ui.tableWidget.setCellWidget(row_position,4,salary_input) 
                 row_position+=1
         elif(db_fetch["success"]==False) :
@@ -63,12 +67,12 @@ class user_page() :
             item_isOtEnabled=self.ui.tableWidget.cellWidget(index,3).isChecked()
             item_salary=self.ui.tableWidget.cellWidget(index,4).text()
             #print(f"UID from table : {item_id} Salary from table : {item_salary} OT from table : {item_isOtEnabled}")
-            if item_salary.isdigit() :
-                item_salary=int(item_salary)
+            if (item_salary) :
+                item_salary=float(item_salary)
                 users.salary=item_salary
+    
             users.isOtEnabled=item_isOtEnabled
             print(f" Name : {users.name} OT : {users.isOtEnabled} Salary {users.salary}")
-
             push_user_to_db(self.Modelusers)
         print(" At save_user_payroll() Saved")
 
