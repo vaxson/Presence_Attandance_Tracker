@@ -1,6 +1,8 @@
 import calendar
+import pandas as pd
 from datetime import datetime, timedelta
 from collections import defaultdict
+
 
 def attendance_analyze(database_rows,start_date,end_date) :
     date_punch_dictionary=defaultdict(list)
@@ -35,6 +37,17 @@ def work_hours_calculation(date_punch_dictionary,start_date,end_date) :
         current_date += timedelta(days=1)
     return data_row
 
+def user_attendance(users_list,start_Date,end_Date):
+    for user in users_list :
+        if user.dataFrame is not None :
+            df=user.dataFrame
+            df["timestamp"]=pd.to_datetime(df["timestamp"])
+            df.sort_values(by="timestamp", inplace=True)
+            df["date"]=df["timestamp"].dt.date
+            df["time"]=df["timestamp"].dt.time
+            print(df.head())
+            
+           
 
 '''
             punch_times.sort()

@@ -6,4 +6,4 @@ class Users :
         self.password=password
         self.salary=0
         self.isOtEnabled=False
-        self.attendance_timestamps=[]
+        self.dataFrame=None

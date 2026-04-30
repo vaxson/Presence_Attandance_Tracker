@@ -17,8 +17,8 @@ def fetch_user_from_device(device):
         for user in users["result"]:
             Modeluser=Users(user.uid,user.name,user.password,device.device_name)
             modelusers.append(Modeluser)
-        
-        push_user_to_db(modelusers)
+        #Push user from device data to database
+        push_device_user_to_db(modelusers)
         return {"success":True,"result":modelusers}
     
     elif(users["success"]==False) :
@@ -29,11 +29,15 @@ def fetch_user_from_device(device):
 
 def fetch_attendance_from_device(device) :
     attendance=device.Fetch_attendance()
-    modelattendance=[]
-    for punch in attendance :
-        Modelattendance=Attendance(punch.user_id,punch.timestamp,punch.uid,device.device_name)
-        modelattendance.append(Modelattendance)
-    return modelattendance
+    if attendance["success"] :
+        modelattendance=[]
+        for punch in attendance["result"] :
+            Modelattendance=Attendance(punch.user_id,punch.timestamp,punch.uid,device.device_name)
+            modelattendance.append(Modelattendance)
+        return modelattendance
+    elif not attendance["success"] :
+        return {"success" :attendance["success"],"result":attendance["result"]}
+        
 
 
 ''' Database operations '''
@@ -97,27 +101,46 @@ def fetch_users_salary_isOtEnabled_from_db(device) :
 
 '''
 def fetch_attendance_user_daterange(device,user_id,start_date,end_date):
-    rows=fetch_attendance_user_date_range(device.device_name,user_id,start_date,end_date)
-    ModelAttendance=[]
-    for row in rows:
-        print(f"User Id: {row[0]}, Name: {row[1]}, Timestamp: {row[2]}")
-        Modelattendance=Attendance(row[0],row[2],row[3],device.device_name)
-        ModelAttendance.append(Modelattendance)
-    return ModelAttendance
+    dataFrame=fetch_attendance_user_date_range(device.device_name,user_id,start_date,end_date)
+    return {"success":True,"result":dataFrame}
 
 ''' 
 * Check if the model user object belong to the same device.
 * Make safty.
 * Same goes to the push_attendance_to_db methord.
 '''
-def push_user_to_db(Modeluser):
+
+
+'''
+# push_device_user_to_db
+* Push user data from device to database.
+* This function is supposed to be wokring as thread
+* Because fetching user data from device may take some time and we don't want to block the UI.
+* saves the user name, uid and password data only.
+'''
+def push_device_user_to_db(Modeluser):
     try :
-        push_user(Modeluser)
+        push_device_user(Modeluser)
         print("User data pushed to database successfully.")
-        return True
+        return {"success": True, "result": "User data pushed to database successfully."}
     except Exception as e:
         print(f"Error occurred while pushing user data to database: {e}")
-        return e
+        return {"success": False, "result": str(e)}
+
+'''
+* Save button from the user page.
+* saves the salaty and is ot enabled data only.
+'''
+def push_software_user_to_db(Modeluser):
+    try :
+        push_software_user(Modeluser)
+        print("User data pushed to database successfully.")
+        return {"success": True, "result": "User data pushed to database successfully."}
+    except Exception as e:
+        print(f"Error occurred while pushing user data to database: {e}")
+        return {"success": False, "result": str(e)}
+    
+
 
 def push_attendance_to_db(device,Modelattendance):
     try:
@@ -169,3 +192,4 @@ def configuration_retrieve_db(configuration_id) :
 
 def analyze(datarows, start_date,end_date) :
     return attendance_analyze(datarows,start_date=start_date,end_date=end_date)
+

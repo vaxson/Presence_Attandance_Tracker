@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QCheckBox, QLineEdit,QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader 
 from PySide6.QtGui import QDoubleValidator
-from services.services import fetch_users_from_db,fetch_user_from_device,push_user_to_db
+from services.services import fetch_users_from_db,push_software_user_to_db
 
 
 '''
@@ -73,7 +73,7 @@ class user_page() :
     
             users.isOtEnabled=item_isOtEnabled
             print(f" Name : {users.name} OT : {users.isOtEnabled} Salary {users.salary}")
-            push_user_to_db(self.Modelusers)
+            push_software_user_to_db(self.Modelusers)
         print(" At save_user_payroll() Saved")
 
 

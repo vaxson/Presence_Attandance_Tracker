@@ -1,5 +1,6 @@
 import sqlite3
 
+import pandas as pd
 '''
 Methords and definitions for database handling and operations.
 * __get_dbconnection__() : Establishes a connection to the SQLite database. (INTERNAL USE ONLY)
@@ -44,8 +45,8 @@ def create_attendance_tables(device_name):
     db_connection=__get_dbconnection__()
     cursor=db_connection.cursor()
     cursor.execute(f'''CREATE TABLE IF NOT EXISTS {Attendance_tablename} (
-                        uid INTEGER PRIMARY KEY AUTOINCREMENT,
-                        name INTEGER NOT NULL,
+                        punch_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name INTEGER NOT NULL
                         timestamp DATETIME NOT NULL)''')
     db_connection.commit()
     db_connection.close()
@@ -53,16 +54,30 @@ def create_attendance_tables(device_name):
 
 
 #push user data to database
-def push_user(Modeluser):
+def push_device_user(Modeluser):
     table_name=Modeluser[0].device_name+"_users"
     db_connection=__get_dbconnection__()
     cursor=db_connection.cursor()
     create_user_tables(Modeluser[0].device_name)
     for user in Modeluser :
-        cursor.execute(f'''INSERT OR REPLACE INTO {table_name} 
-                       (uid, name, password, isOtEnabled, salary) 
-                       VALUES (?, ?, ?, ?, ?)''', 
-                       (user.uid, user.name, user.password, user.isOtEnabled, user.salary))
+        cursor.execute(f'''INSERT  INTO {table_name} (uid, name, password,salary,isotenabled) 
+                       VALUES (?, ?, ?,?,?) 
+                       ON CONFLICT(uid) 
+                       DO UPDATE SET name=excluded.name, password=excluded.password''', 
+                       (user.uid, user.name, user.password,0,0))
+    db_connection.commit()
+    db_connection.close()
+
+def push_software_user(Modeluser):
+    table_name=Modeluser[0].device_name+"_users"
+    db_connection=__get_dbconnection__()
+    cursor=db_connection.cursor()
+    create_user_tables(Modeluser[0].device_name)
+    for user in Modeluser :
+        cursor.execute(f'''UPDATE {table_name} 
+                       SET isOtEnabled=?, salary=?
+                       WHERE uid=?''', (user.isOtEnabled, user.salary, user.uid ))
+        
     db_connection.commit()
     db_connection.close()
 
@@ -75,10 +90,11 @@ def push_attendance(device_name,Modelattendance):
     db_connection=__get_dbconnection__()
     create_attendance_tables(Modelattendance[0].device_name)
     cursor=db_connection.cursor()
+
     for attendance in Modelattendance :
         cursor.execute(f'''INSERT OR REPLACE INTO {attendance_tablename}  
-                       (uid,name, timestamp) VALUES(?, ?, ?)''', 
-                       (attendance.punchid, attendance.uid, attendance.timestamp))
+                       (punchid,uid,timestamp) VALUES(?, ?, ?)''', 
+                       (attendance.punchid,attendance.uid, attendance.timestamp))
     db_connection.commit()
     db_connection.close()
 
@@ -122,14 +138,12 @@ def fetch_attendance_user_date_range(device_name,user_id,start_date,end_date) :
     user_tablename=device_name+"_users"
     print("Fetching attenance......")
     dbconnection=__get_dbconnection__()
-    cursor=dbconnection.cursor()
-    cursor.execute(f'''SELECT {attendance_tablename}.uid,{user_tablename}.name, 
+    dataFrame=pd.read_sql_query(f'''SELECT {attendance_tablename}.uid,{user_tablename}.name, 
                    {attendance_tablename}.timestamp FROM {attendance_tablename} 
                    JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 
-                   WHERE {user_tablename}.uid={user_id} AND {attendance_tablename}.timestamp BETWEEN ? AND ?''', (start_date, end_date))
-    rows=cursor.fetchall()
-    dbconnection.close()
-    return rows
+                   WHERE {user_tablename}.uid={user_id} AND {attendance_tablename}.timestamp BETWEEN ? AND ?''', (start_date, end_date), dbconnection)
+ 
+    return dataFrame
 
 def combine_attendance_user() :
     db_connection=__get_dbconnection__()
@@ -161,3 +175,5 @@ def retrieve_device_information(device_id) :
     rows=cursor.fetchone()
     db_connection.close()
     return rows
+
+

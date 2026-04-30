@@ -41,7 +41,7 @@ class Zk_device :
     
     def Fetch_attendance(self):
         try :
-            attendance=self.connection.get_attendance()
+            attendance=self.connection.get_attendance()          
             return {"success":True,"result":attendance}
         except Exception as e :
             print(f"Error Occured : {e}")

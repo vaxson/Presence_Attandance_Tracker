@@ -1,17 +1,18 @@
 from services.services import *
 from PySide6.QtWidgets import QApplication,QTableWidgetItem,QLabel
 from PySide6.QtUiTools import QUiLoader
-from users_page import user_page
+from ui.users_page import user_page
 from utils.helper.ClickFilter import ClickFilter
 import resources_rc
 from ui.configuration import ConfigurationDevice
 from ui.date_selection import Date_selection
+from ui.attendance_page import Attendance_page
 from threading import Thread
 
 app=QApplication([])
 loader=QUiLoader()
 
-date_selection=Date_selection()
+
 device_list=[]
 device1_ipaddress="169.254.241.222" 
 device1_name="k30"
@@ -23,6 +24,12 @@ configuration_device1=ConfigurationDevice(1)
 configuration_device2=ConfigurationDevice(2)
 machine1_user_page=user_page(device_1)
 machine1_user_page.ui.setEnabled(True)
+
+#Date Selection Objects
+date_selection=Date_selection()
+
+#Attendance page object
+attendance_page=Attendance_page()
 
 #user_data=fetch_users_from_db(dev1)
 #data=fetch_attendance_user_daterange(device_1,5,"2025-02-01 00:00:00","2025-03-01 00:00:00") 
@@ -65,12 +72,15 @@ def user_btn_clicked(obj) :
 def attandance_btn_clicked(obj) :
     name=obj.objectName()
     if("label_attandance_machine1" in name) :
-        print("Clicked on attendance machine 1")
+        print(f"Clicked on attendance machine 1")
+        Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
+        '''
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
-       
-        
+        attendance_page.user_get_attendance(device_1,start_date,end_date)
+        '''
+
 
     elif("label_attandance_machine2" in name) :
         print("Clicked on attendance machine 2")
@@ -166,6 +176,9 @@ window.label_configure_machine1.installEventFilter(window.configuration_click)
 window.label_users_machine2.installEventFilter(window.users_click)
 window.label_attandance_machine2.installEventFilter(window.attendance_click)
 window.label_configure_machine2.installEventFilter(window.configuration_click)
+
+#Manually asigining device object to label for now, need to find better way to do this.
+window.label_attandance_machine1.device=device_1
 
 window.widget_sub_machine1.setVisible(True)
 window.widget_sub_machine2.setVisible(True)
