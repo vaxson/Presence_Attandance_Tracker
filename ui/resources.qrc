@@ -1,5 +1,31 @@
 <RCC>
   <qresource prefix="config_icons">
+    <file>usersV2.ui</file>
+    <file>usersV2 - Copy.ui</file>
+    <file>users_page.py</file>
+    <file>users.ui</file>
+    <file>tempCodeRunnerFile.py</file>
+    <file>sidebar.ui</file>
+    <file>router_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>resources.qrc</file>
+    <file>nest_remote_comfort_sensor_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</file>
+    <file>mainV2.ui</file>
+    <file>mainV2 - Copy.ui</file>
+    <file>main.ui</file>
+    <file>laptop_mac_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>lan_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
+    <file>float_landscape_2_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</file>
+    <file>float_landscape_2_60dp_000000_FILL0_wght100_GRAD200_opsz48.png</file>
+    <file>flip_to_front_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</file>
+    <file>date_selection.ui</file>
+    <file>date_selection.py</file>
+    <file>configuration_ChatGPT.ui</file>
+    <file>configuration.ui</file>
+    <file>configuration.py</file>
+    <file>attendance_page.py</file>
+    <file>attendance.ui</file>
+    <file>analytics_60dp_000000_FILL0_wght100_GRAD200_opsz48.png</file>
     <file>router_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
     <file>nest_remote_comfort_sensor_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>
     <file>laptop_mac_60dp_000000_FILL0_wght400_GRAD0_opsz48.png</file>

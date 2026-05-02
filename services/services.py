@@ -61,8 +61,8 @@ def fetch_attendance_from_db(device):
     rows=fetch_attendance_table(device.device_name)
     ModelAttendance=[]
     for row in rows:
-        print(f"User Id: {row[0]}, Name: {row[1]}, Timestamp: {row[2]}")
-        Modelattendance=Attendance(row[0],row[2],row[3],device.device_name)
+        #print(f"User Id: {row[0]}, Name: {row[1]}, Timestamp: {row[2]}")
+        Modelattendance=Attendance(row[1],row[2],row[0],device.device_name)
         ModelAttendance.append(Modelattendance)
     return ModelAttendance
 
@@ -76,7 +76,7 @@ def fetch_users_from_db(device):
             try :
                 Modeluser.isOtEnabled=user[3]
                 Modeluser.salary=user[4]
-            except IndexError:
+            except Exception as e:
                 print("Error occurred while fetching user data from database.")
                 print(f"Name : {Modeluser.name}, UID : {Modeluser.uid}, password :{Modeluser.password}, isOtEnabled : {Modeluser.isOtEnabled}, salary : {Modeluser.salary} ")
             modelusers.append(Modeluser)
@@ -182,7 +182,7 @@ def configuration_retrieve_db(configuration_id) :
         saved_configuration=retrieve_device_information(configuration_id)
         if(saved_configuration) :
             print(f"Configuration retrieved for device {saved_configuration[1]} with IP {saved_configuration[2]} and port {saved_configuration[3]}")
-            return {"success":True,"configuration":"saved_configuration"}
+            return {"success":True,"configuration":saved_configuration}
         else :
             return {"success":False,"configuration":"No configuration found for the given ID."}
     except Exception as e:

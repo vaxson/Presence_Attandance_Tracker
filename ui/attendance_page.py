@@ -15,21 +15,25 @@ class Attendance_page :
         
 
     def sync_attendance(self,device) :
-        attendance_list=fetch_attendance_from_device(device)
-        push_attendance_to_db(device,attendance_list)
-                
+        try :
+            attendance_list=fetch_attendance_from_device(device)
+            push_attendance_to_db(device,attendance_list)
+        except Exception as e :
+            pass
+
 
     def user_get_attendance(self,device,start_date,end_date):
         self.start_date=start_date
         self.end_date=end_date
         # Fetch attendance data for the specified device and users
-        self.users_list=fetch_attendance_from_db(device=device)
-        for user in self.users_list:
-            result=fetch_attendance_user_daterange(device, user.uid, self.start_date, self.end_date)
+        self.users_list=fetch_users_from_db(device=device)
+        self.users_list=self.users_list["result"]
+        for users in self.users_list :
+            result=fetch_attendance_user_daterange(device,users.uid, self.start_date, self.end_date)
             if result["success"]:
-                user.dataFrame = result["result"]
-                print(user.dataFrame.head())
-
+                dataFrame = result["result"]
+                users.dataFrame=dataFrame
+                print(f"name={users.name},{dataFrame.head()}")
 
     def calculations(self) :
         for user in self.users_list :

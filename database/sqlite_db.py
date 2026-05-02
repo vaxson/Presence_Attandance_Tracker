@@ -46,7 +46,7 @@ def create_attendance_tables(device_name):
     cursor=db_connection.cursor()
     cursor.execute(f'''CREATE TABLE IF NOT EXISTS {Attendance_tablename} (
                         punch_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        name INTEGER NOT NULL
+                        name INTEGER NOT NULL,
                         timestamp DATETIME NOT NULL)''')
     db_connection.commit()
     db_connection.close()
@@ -93,8 +93,8 @@ def push_attendance(device_name,Modelattendance):
 
     for attendance in Modelattendance :
         cursor.execute(f'''INSERT OR REPLACE INTO {attendance_tablename}  
-                       (punchid,uid,timestamp) VALUES(?, ?, ?)''', 
-                       (attendance.punchid,attendance.uid, attendance.timestamp))
+                       (punch_id,name,timestamp) VALUES(?, ?, ?)''', 
+                       (attendance.punchid,attendance.uid,attendance.timestamp))
     db_connection.commit()
     db_connection.close()
 
@@ -138,11 +138,24 @@ def fetch_attendance_user_date_range(device_name,user_id,start_date,end_date) :
     user_tablename=device_name+"_users"
     print("Fetching attenance......")
     dbconnection=__get_dbconnection__()
-    dataFrame=pd.read_sql_query(f'''SELECT {attendance_tablename}.uid,{user_tablename}.name, 
-                   {attendance_tablename}.timestamp FROM {attendance_tablename} 
-                   JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 
-                   WHERE {user_tablename}.uid={user_id} AND {attendance_tablename}.timestamp BETWEEN ? AND ?''', (start_date, end_date), dbconnection)
- 
+
+
+    dataFrame=pd.read_sql(f'''SELECT {attendance_tablename}.punch_id,{user_tablename}.name, 
+                                {attendance_tablename}.timestamp FROM {attendance_tablename} 
+                                JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 
+                                WHERE {attendance_tablename}.name=? 
+                                AND {attendance_tablename}.timestamp BETWEEN ? AND ?''', 
+                                __get_dbconnection__(), params=(user_id,start_date,end_date))
+
+    #
+    # cursor.execute(f'''SELECT {attendance_tablename}.punch_id,{user_tablename}.name, 
+    #                {attendance_tablename}.timestamp FROM {attendance_tablename} 
+    #                JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 
+    #                WHERE {attendance_tablename}.name={user_id} 
+    #                AND {attendance_tablename}.timestamp BETWEEN ? AND ?''', 
+    #                (start_date, end_date))
+    # dataFrame=cursor.fetchall()
+
     return dataFrame
 
 def combine_attendance_user() :

@@ -12,7 +12,7 @@ class Zk_device :
     def Connect(self):
         zk=ZK(self.ip_address,self.port,self.timeout)
         try:
-            print("Connecting to device......")
+            print(f"Connecting to device......IP :{self.ip_address} name : {self.device_name}")
             self.connection=zk.connect()
             print("Disabling device......")
             self.connection.disable_device()

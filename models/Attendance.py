@@ -1,8 +1,10 @@
 import pandas as pd
+from datetime import datetime
 class Attendance :
     def __init__(self,user_id,timestamp,punch_id,device_name) :
         self.device_name=device_name
         self.uid=user_id
+        timestamp=datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
         self.date=timestamp.date()
         self.time=timestamp.time()
         self.timestamp=timestamp

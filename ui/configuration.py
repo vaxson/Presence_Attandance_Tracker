@@ -1,28 +1,41 @@
 from PySide6.QtUiTools import QUiLoader
-from services.services import test_connection,configuration_retrieve_db,configuration_save
+from services.services import test_connection,configuration_retrieve_db,configuration_save,get_device_connection
 
 
 class ConfigurationDevice :
     def __init__(self,id) :
-        self.machine_name=None
+        self.isonline=False
+        self.machine_name=""
         self.id=id
-        self.ipaddress=None
-        self.portnumber=None
+        self.ipaddress=""
+        self.portnumber=""
         self.ping_status=None
         loader=QUiLoader()
         self.ui=loader.load("ui/configuration.ui")
+        self.configuration_retrieve()
+        self.device_object=get_device_connection(ipaddress=self.ipaddress,port_number=self.portnumber,device_name=self.machine_name)
+        self.checkstatus()
 
+    def checkstatus(self) :
+        self.isonline=test_connection(ipaddress=self.ipaddress,port_number=self.portnumber)["success"]
+        return self.isonline
+        
+        
     def test_connection_clicked(self) :
         result=test_connection(ipaddress=self.ipaddress,port_number=self.portnumber)
         print("test connection")
+        self.isonline=result["success"]
         self.ui.ping_status.setText(result['status'])
     
     def configuration_retrieve(self) :
         retrieved=configuration_retrieve_db(configuration_id=int(self.id))
         if(retrieved["success"]) :
             self.ui.devicename.setText(retrieved["configuration"][1])
+            self.machine_name=retrieved["configuration"][1]
             self.ui.ipaddress.setText(retrieved["configuration"][2])
+            self.ipaddress=retrieved["configuration"][2]
             self.ui.portnumber.setText(str(retrieved["configuration"][3]))
+            self.portnumber=retrieved["configuration"][3]
             self.ui.machine_name.setText(retrieved["configuration"][1])
         else:
         
