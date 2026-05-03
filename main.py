@@ -12,21 +12,16 @@ from threading import Thread
 app=QApplication([])
 loader=QUiLoader()
 
-'''
+
 device_list=[]
 device1_ipaddress="169.254.241.222" 
 device1_name="k30"
-'''
-#device_1=get_device_connection(device1_ipaddress,4370,device1_name)
+
+device_1=get_device_connection(device1_ipaddress,4370,device1_name)
 
 #Configure device objects
-target=configuration_device1=ConfigurationDevice(1)
+configuration_device1=ConfigurationDevice(1)
 configuration_device2=ConfigurationDevice(2)
-# Device object from configuration object
-device_1=configuration_device1.device_object
-device_2=configuration_device2.device_object
-
-
 machine1_user_page=user_page(device_1)
 machine1_user_page.ui.setEnabled(True)
 
@@ -78,15 +73,13 @@ def attandance_btn_clicked(obj) :
     name=obj.objectName()
     if("label_attandance_machine1" in name) :
         print(f"Clicked on attendance machine 1")
-        if(obj.config.checkstatus()) :
-            Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
-       
+        Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
+        '''
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
-        print(f"Start date :{start_date} End Date : {end_date}")
         attendance_page.user_get_attendance(device_1,start_date,end_date)
-
+        '''
 
 
     elif("label_attandance_machine2" in name) :
@@ -185,7 +178,7 @@ window.label_attandance_machine2.installEventFilter(window.attendance_click)
 window.label_configure_machine2.installEventFilter(window.configuration_click)
 
 #Manually asigining device object to label for now, need to find better way to do this.
-window.label_attandance_machine1.config=configuration_device2
+window.label_attandance_machine1.device=device_1
 
 window.widget_sub_machine1.setVisible(True)
 window.widget_sub_machine2.setVisible(True)

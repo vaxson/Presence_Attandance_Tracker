@@ -100,8 +100,8 @@ def fetch_users_salary_isOtEnabled_from_db(device) :
 
 
 '''
-def fetch_attendance_user_daterange(device,user_id,start_date,end_date):
-    dataFrame=fetch_attendance_user_date_range(device.device_name,user_id,start_date,end_date)
+def fetch_attendance_daterange(device,start_date,end_date):
+    dataFrame=fetch_attendance_date_range(device.device_name,start_date,end_date)
     return {"success":True,"result":dataFrame}
 
 ''' 
