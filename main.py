@@ -13,15 +13,16 @@ app=QApplication([])
 loader=QUiLoader()
 
 
-device_list=[]
-device1_ipaddress="169.254.241.222" 
-device1_name="k30"
+# device_list=[]
+# device1_ipaddress="169.254.241.222" 
+# device1_name="k30"
+# device_1=get_device_connection(ipaddress=device1_ipaddress,port_number=4370,device_name=device1_name)
 
-device_1=get_device_connection(device1_ipaddress,4370,device1_name)
 
 #Configure device objects
 configuration_device1=ConfigurationDevice(1)
 configuration_device2=ConfigurationDevice(2)
+device_1=configuration_device1.device_object
 machine1_user_page=user_page(device_1)
 machine1_user_page.ui.setEnabled(True)
 
@@ -72,14 +73,13 @@ def user_btn_clicked(obj) :
 def attandance_btn_clicked(obj) :
     name=obj.objectName()
     if("label_attandance_machine1" in name) :
-        print(f"Clicked on attendance machine 1")
+        print(f"Clicked on attendance machine 1") 
         Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
-        '''
+    
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
         attendance_page.user_get_attendance(device_1,start_date,end_date)
-        '''
 
 
     elif("label_attandance_machine2" in name) :
@@ -95,7 +95,7 @@ def configuration_btn_clicked(obj) :
         print("Clicked on configuration machine 1")
         window.stackedwidget_content_area.setCurrentWidget(configuration_device1.ui)
         configuration_device1.ui.machine_name.setText("Machine 1 Configuration")
-        Thread(target=configuration_device1.configuration_retrieve).start()
+        Thread(target=device_1.configuration_retrieve).start()
 
     elif("label_configure_machine2" in name) :
         print("Clicked on configuration machine 2") 

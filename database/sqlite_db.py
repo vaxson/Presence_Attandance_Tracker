@@ -142,7 +142,7 @@ def fetch_attendance_date_range(device_name,start_date,end_date) :
 
     dataFrame=pd.read_sql(f'''SELECT {attendance_tablename}.punch_id,{attendance_tablename}.user_id ,{user_tablename}.name, 
                                 {attendance_tablename}.timestamp FROM {attendance_tablename} 
-                                JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 
+                                JOIN {user_tablename} ON {attendance_tablename}.user_id = {user_tablename}.uid 
                                 WHERE {attendance_tablename}.timestamp BETWEEN ? AND ?''', 
                                 __get_dbconnection__(), params=(start_date,end_date))
 

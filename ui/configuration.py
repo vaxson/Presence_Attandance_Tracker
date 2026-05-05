@@ -13,9 +13,11 @@ class ConfigurationDevice :
         loader=QUiLoader()
         self.ui=loader.load("ui/configuration.ui")
         self.configuration_retrieve()
+        # /self.device_object=None
         self.device_object=get_device_connection(ipaddress=self.ipaddress,port_number=self.portnumber,device_name=self.machine_name)
         self.checkstatus()
 
+        
     def checkstatus(self) :
         self.isonline=test_connection(ipaddress=self.ipaddress,port_number=self.portnumber)["success"]
         return self.isonline

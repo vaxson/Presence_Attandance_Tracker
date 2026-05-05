@@ -18,16 +18,20 @@ class Attendance_page :
     def sync_attendance(self,device) :
         try :
             attendance_list=fetch_attendance_from_device(device=device)
-            push_attendance_to_db(device,attendance_list["result"])
-            print("Attendance Fetched")
+            if(attendance_list["success"]) :
+                print("Attendance Fetched")
+                push_attendance_to_db(device,attendance_list["result"])
         except Exception as e :
             print(f"Attendance Failed for  {e}")
+        
         
 
 
     def user_get_attendance(self,device,start_date,end_date):
         self.start_date=start_date
         self.end_date=end_date
+        all_dates=pd.date_range(self.start_date,self.end_date)
+        all_dates=pd.DataFrame({"date" : all_dates})
         # Fetch attendance data for the specified device and users
         # self.users_list=fetch_users_from_db(device=device)
         # self.users_list=self.users_list["result"]
@@ -35,32 +39,41 @@ class Attendance_page :
         result=fetch_attendance_daterange(device,self.start_date,self.end_date)  
         users=fetch_users_from_db(device=device)
         self.users_list=users["result"]
-
         if result["success"]:
             dataFrame = result["result"]
-            print(dataFrame.head())
             dataFrame["timestamp"]=pd.to_datetime(dataFrame["timestamp"])
-            dataFrame["date"]=dataFrame["timestamp"].dt.date
+            dataFrame=dataFrame.sort_values("timestamp")
+            dataFrame["date"]=dataFrame["timestamp"].dt.floor("D")
             dataFrame["time"]=dataFrame["timestamp"].dt.time
             for user in self.users_list :
                 user.dataFrame=dataFrame[dataFrame["name"]==user.name]
-            self.calculations()
+                user.dataFrame=user.dataFrame.groupby("date")["time"].apply(list).reset_index()
+                all_date=all_dates.merge(user.dataFrame,on="date",how="left")
+                print(all_date.head())
+
+                # print(f"user Name :{user.name}")
+           
+
 
         
 
-    def calculations(self) :
-        for user in self.users_list :
-            print(f"user Name : {user.name}")
-        
-        # groupddataFrame=dataFrame.groupby("name")
-        # for key,df in groupddataFrame :
-        #     print(f"User : {key}")
-        #     df["timestamp"]=pd.to_datetime(df["timestamp"])
-        #     # df.sort_values(by="timestamp", inplace=True)
-        #     df["date"]=df["timestamp"].dt.date
-        #     df["time"]=df["timestamp"].dt.time 
-            print(user.dataFrame.head())
-                
+    def calculations(self,attendanceFrame) :
+        work_hours=0
+        for punches in attendanceFrame :
+            punch_size=len(punches)
+            if(punch_size%2==0):
+                for punch in punches :
+                    work_hours=work_hours+punch
+                print(work_hours)
+            # elif punch_size<=0:
+            #     # print(f"{date} : absent")
+            # else :
+            #     pass
+            #     # print(f"{date} :present miss punch")
+            #     pass
+    
+            
 
+        
     def display_attendance(self) :
         user_attendance(self.users_list,self.start_date,self.end_date)

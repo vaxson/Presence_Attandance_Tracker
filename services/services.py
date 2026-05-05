@@ -29,13 +29,13 @@ def fetch_user_from_device(device):
 
 def fetch_attendance_from_device(device) :
     attendance=device.Fetch_attendance()
-    if attendance["success"] :
+    if (attendance["success"]== True) :
         modelattendance=[]
         for punch in attendance["result"] :
             Modelattendance=Attendance(punch.user_id,punch.timestamp,punch.uid,device.device_name)
             modelattendance.append(Modelattendance)
-        return modelattendance
-    elif not attendance["success"] :
+        return {"success" : True,"result" :modelattendance}
+    elif (attendance["success"]== False) :
         return {"success" :attendance["success"],"result":attendance["result"]}
         
 
