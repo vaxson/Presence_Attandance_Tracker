@@ -207,4 +207,3 @@ for user, row in enumerate(user_data):
 
 window.show()
 app.exec()
-

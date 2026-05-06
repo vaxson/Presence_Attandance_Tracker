@@ -46,34 +46,74 @@ class Attendance_page :
             dataFrame["date"]=dataFrame["timestamp"].dt.floor("D")
             dataFrame["time"]=dataFrame["timestamp"].dt.time
             for user in self.users_list :
+                print(f"user Name : {user.name}")
                 user.dataFrame=dataFrame[dataFrame["name"]==user.name]
-                user.dataFrame=user.dataFrame.groupby("date")["time"].apply(list).reset_index()
-                all_date=all_dates.merge(user.dataFrame,on="date",how="left")
-                print(all_date.head())
+                all_date=all_dates.merge(user.dataFrame,on="date",how="left").sort_values(["date","time"])
+                # print(all_date)
+                self.calculations(all_date)
+                
 
-                # print(f"user Name :{user.name}")
            
 
 
-        
 
-    def calculations(self,attendanceFrame) :
+    def calculations(self,user_dataFrame) :
+        first_punch=0
+        last_punch=0
         work_hours=0
-        for punches in attendanceFrame :
-            punch_size=len(punches)
-            if(punch_size%2==0):
-                for punch in punches :
-                    work_hours=work_hours+punch
-                print(work_hours)
-            # elif punch_size<=0:
-            #     # print(f"{date} : absent")
-            # else :
-            #     pass
-            #     # print(f"{date} :present miss punch")
-            #     pass
-    
+        aggregate_dataFrame=user_dataFrame.groupby("date")["time"].agg("count").reset_index()
+        for aggregate in aggregate_dataFrame.itertuples() :
+            if(aggregate.time == 0) :
+                print(f"{aggregate.date} : Absent ")
+                continue
+            elif(aggregate.time %2 ==0) :
+                for user_DF in user_dataFrame[user_dataFrame['date']==aggregate.date].itertuples() :
+                    if(first_punch==0):
+                        first_punch=user_DF.timestamp
+                    else :
+                        last_punch=user_DF.timestamp
+                        total_seconds = (last_punch - first_punch).total_seconds()
+                        hours = total_seconds / 3600
+                        work_hours=work_hours+hours
+                        first_punch=0
+                        last_punch=0
+                print(f"Date {aggregate.date} | Present | Work Duration :{work_hours}")
+                work_hours=0
+
+                
+                
+            elif(aggregate.time %2 > 0) :
+                print(f"Date {aggregate.date} | Present, Miss punch")
+        
+        
+            # print(f"Date :{aggregate.date} | Count : {aggregate.time}")
+        #aggregate_dataFrame=aggregate_dataFrame["date"]
+        # print(aggregate_dataFrame)
+        # for x in user_dataFrame.itertuples():
+        #     print(f"date: {x.time[0]} : {x.time[-1]}")
+
+        # work_hours=0
+        # time_length=len(user_dataFrame["time"])
+        # print(f"Time lngth : {time_length}")
+        # if time_length==0:
+        #     print(f"{user_dataFrame['date']} | Absent")
+        #     return None
+        # elif time_length % 2 >0 :
+        #     print(f"{user_dataFrame['date']} :Present | MISS PUNCH")
+        #     return None
+        # elif time_length %2==0 :
+        #     for index in range(0,time_length,2):
+        #         in_punch=user_dataFrame["time"][index]
+        #         out_punch=user_dataFrame["time"][index+1]
+        #         duration=out_punch-in_punch  
+        #         work_hours=work_hours+duration
+        #     print(f"{user_dataFrame['date']}: present : Hours {work_hours}")
+                
+            
+       
             
 
         
     def display_attendance(self) :
         user_attendance(self.users_list,self.start_date,self.end_date)
+ 
