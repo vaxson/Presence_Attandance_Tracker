@@ -4,6 +4,7 @@ from PySide6.QtUiTools import QUiLoader
 from ui.users_page import user_page
 from utils.helper.ClickFilter import ClickFilter
 import resources_rc
+from ui.settings import Settings
 from ui.configuration import ConfigurationDevice
 from ui.date_selection import Date_selection
 from ui.attendance_page import Attendance_page
@@ -25,6 +26,9 @@ configuration_device2=ConfigurationDevice(2)
 device_1=configuration_device1.device_object
 machine1_user_page=user_page(device_1)
 machine1_user_page.ui.setEnabled(True)
+
+# settings page object
+settings_page=Settings()
 
 #Date Selection Objects
 date_selection=Date_selection()
@@ -141,7 +145,7 @@ def showhide_machineSubbuttons(status) :
 #Ui loads
 
 
-window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/mainV2.ui")
+window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/main.ui")
 
 #machine2_user_page=user_page(device_2).ui
 #window.stackedwidget_content_area.addWidget(machine2_user_page)
@@ -157,6 +161,9 @@ window.clickfilter=ClickFilter(handle_click)
 window.users_click=ClickFilter(user_btn_clicked)
 window.attendance_click=ClickFilter(attandance_btn_clicked)
 window.configuration_click=ClickFilter(configuration_btn_clicked)
+window.settings_btn.clicked.connect(lambda :settings_page.ui.show()) 
+
+
 
 #Configuration page Buttons
 configuration_device1.ui.btn_test_connection.clicked.connect(lambda :test_button_clicked(configuration_device1))
@@ -207,3 +214,4 @@ for user, row in enumerate(user_data):
 
 window.show()
 app.exec()
+

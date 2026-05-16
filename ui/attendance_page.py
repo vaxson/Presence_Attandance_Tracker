@@ -49,18 +49,19 @@ class Attendance_page :
                 print(f"user Name : {user.name}")
                 user.dataFrame=dataFrame[dataFrame["name"]==user.name]
                 all_date=all_dates.merge(user.dataFrame,on="date",how="left").sort_values(["date","time"])
-                # print(all_date)
-                self.calculations(all_date)
+                print(all_date.groupby('date')["time"].agg("count"))
+                self.calculations(all_date,9,8)
                 
 
-           
 
 
 
-    def calculations(self,user_dataFrame) :
+
+    def calculations(self,user_dataFrame,two_punch_duration,four_punch_duration) :
         first_punch=0
         last_punch=0
         work_hours=0
+        status=None
         aggregate_dataFrame=user_dataFrame.groupby("date")["time"].agg("count").reset_index()
         for aggregate in aggregate_dataFrame.itertuples() :
             if(aggregate.time == 0) :
@@ -77,13 +78,30 @@ class Attendance_page :
                         work_hours=work_hours+hours
                         first_punch=0
                         last_punch=0
-                print(f"Date {aggregate.date} | Present | Work Duration :{work_hours}")
-                work_hours=0
 
-                
+                if(aggregate.time ==2):
+                    if(work_hours<two_punch_duration):
+                        status="Early Exit"
+                    elif(work_hours==two_punch_duration):
+                        status="Full Day"
+                    elif(work_hours>two_punch_duration):
+                        status="Over Time"
+
+                elif(aggregate.time >2):
+                    if(work_hours<four_punch_duration):
+                        status="Early Exit"
+                    elif(work_hours==four_punch_duration):
+                        status="Full Day"
+                    elif(work_hours>four_punch_duration):
+                        status="Over Time"
+
+                # print(f"Check : {user_dataFrame.groupby('date')['time'].apply(list)}")
+                print(f"Date {aggregate.date} | Present | Work Duration :{work_hours} | {status}")
+                work_hours=0
                 
             elif(aggregate.time %2 > 0) :
                 print(f"Date {aggregate.date} | Present, Miss punch")
+                continue
         
         
             # print(f"Date :{aggregate.date} | Count : {aggregate.time}")

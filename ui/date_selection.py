@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QCheckBox, QLineEdit, QTableWidgetItem,QLabel,QFrame,QDateEdit,QDialog
 from PySide6.QtUiTools import QUiLoader 
 from datetime import datetime,time
+
 class Date_selection(QDialog):
     def __init__(self) :
         super().__init__()
@@ -18,7 +19,8 @@ class Date_selection(QDialog):
     def rejection(self):
         print("Date selection cancelled")
         super().reject()
-from PySide6.QtUiTools import QUiLoader 
+
+
 class Date_selection():
     def __init__(self) :
         super().__init__()

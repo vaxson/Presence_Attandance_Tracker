@@ -193,3 +193,48 @@ def configuration_retrieve_db(configuration_id) :
 def analyze(datarows, start_date,end_date) :
     return attendance_analyze(datarows,start_date=start_date,end_date=end_date)
 
+
+# Actions for settings page
+# settings object is passed to this db method
+
+def save_settings_to_db(settings_object) :
+    try :
+        store_settings(
+            entry_id=settings_object.entry_id,
+            two_punch_duration=settings_object.two_punch_duration,
+            four_punch_duration=settings_object.four_punch_duration,
+            grace_time=settings_object.grace_time,
+            min_OT_duration=settings_object.min_OT_duration,
+            paid_leaves=settings_object.paid_leaves,
+            num_days=settings_object.days_in_month,
+            OT_multiplier=settings_object.OT_multiplier,
+            OT_method=settings_object.ot_calculation_method,
+            early_checkout_deduction=settings_object.early_checkout,
+            enable_payroll=settings_object.enable_payroll
+        )
+        print("Settings saved to database successfully.")
+        return {"success": True, "result": "Settings saved to database successfully (services 200)."}
+    except Exception as e:
+        print(f"Error occurred while saving settings to database(ser 200) : {e}")
+        return {"success": False, "result": str(e)}
+    
+
+def fetch_settings_from_db() :
+    try :
+        rows_settings=retrieve_settings()
+        print("Settings retrieved from database successfully.")
+        result_dictionary={"2_punch": rows_settings[1], 
+                "4_punch": rows_settings[2],
+                "grace_time": rows_settings[3], 
+                "min_OT_duration": rows_settings[4], 
+                "paid_leaves": rows_settings[5], 
+                "num_days": rows_settings[6], 
+                "OT_multiplier": rows_settings[7],
+                "OT_method": rows_settings[8], 
+                "early_checkout": rows_settings[9],
+                "enable_payroll": rows_settings[10]}
+        
+        return {"success": True, "result": result_dictionary}
+    except Exception as e:
+        print(f"Error occurred while fetching settings from database(ser 220): {e}")
+        return {"success": False, "result": str(e)}

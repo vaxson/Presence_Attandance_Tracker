@@ -37,6 +37,8 @@ def work_hours_calculation(date_punch_dictionary,start_date,end_date) :
         current_date += timedelta(days=1)
     return data_row
 
+# ------------------------------------------------------------------------------------------------------------------------
+# using dataframe from pandas
 def user_attendance(users_list,start_Date,end_Date):
     for user in users_list :
         if user.dataFrame is not None :

@@ -190,3 +190,43 @@ def retrieve_device_information(device_id) :
     return rows
 
 
+
+def store_settings(entry_id,two_punch_duration, four_punch_duration, grace_time, min_OT_duration, paid_leaves, num_days, OT_multiplier,OT_method, early_checkout_deduction, enable_payroll) :
+    db_connection=sqlite3.connect("database/settings.db")
+    cursor=db_connection.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS settings (
+                   entry_id INTEGER PRIMARY KEY,
+                    two_punch_duration INTEGER ,
+                    four_punch_duration INTEGER,
+                    grace_time INTEGER,
+                    min_OT_duration INTEGER,
+                    paid_leaves INTEGER,
+                    num_days INTEGER,
+                   OT_multiplier REAL,
+                    OT_method BOOLEAN,
+                    early_checkout_deduction BOOLEAN,
+                    enable_payroll BOOLEAN)
+                   ''')
+    cursor.execute('''INSERT OR REPLACE INTO settings 
+                   (entry_id, two_punch_duration, four_punch_duration, 
+                   grace_time, min_OT_duration, paid_leaves, 
+                   num_days, OT_multiplier, OT_method, early_checkout_deduction, 
+                   enable_payroll) 
+                   VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', 
+                   (entry_id,two_punch_duration, four_punch_duration, grace_time, 
+                    min_OT_duration, paid_leaves, num_days, OT_multiplier,OT_method, 
+                    early_checkout_deduction, enable_payroll)
+                    )
+    db_connection.commit()
+    db_connection.close()
+
+
+def retrieve_settings() :
+    db_connection=sqlite3.connect("database/settings.db")
+    cursor=db_connection.cursor()
+    cursor.execute('''SELECT * FROM settings''')
+    rows=cursor.fetchone()
+    db_connection.close()
+    return rows
+
+
