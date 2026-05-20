@@ -207,7 +207,7 @@ QPushButton:pressed {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-420</y>
+        <y>-380</y>
         <width>632</width>
         <height>1152</height>
        </rect>
@@ -319,7 +319,7 @@ QPushButton:pressed {
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLabel" name="lab_2_punch">
+                     <widget class="QLabel" name="lab_work_duration">
                       <property name="minimumSize">
                        <size>
                         <width>200</width>
@@ -338,7 +338,7 @@ QPushButton:pressed {
                        </font>
                       </property>
                       <property name="text">
-                       <string>Work Duration (2-Punch)</string>
+                       <string>Work Duration </string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -346,7 +346,7 @@ QPushButton:pressed {
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="duration_2_punch">
+                     <widget class="QLineEdit" name="work_duration">
                       <property name="enabled">
                        <bool>true</bool>
                       </property>
@@ -428,7 +428,7 @@ QPushButton:pressed {
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLabel" name="lab_dur_4_punch">
+                     <widget class="QLabel" name="lab_break_duration">
                       <property name="minimumSize">
                        <size>
                         <width>200</width>
@@ -447,7 +447,7 @@ QPushButton:pressed {
                        </font>
                       </property>
                       <property name="text">
-                       <string>Work Duration (4-Punch)</string>
+                       <string>Total Break Duration </string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -455,7 +455,7 @@ QPushButton:pressed {
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="duration_4_punch">
+                     <widget class="QLineEdit" name="break_duration">
                       <property name="enabled">
                        <bool>true</bool>
                       </property>
@@ -798,7 +798,22 @@ QPushButton:pressed {
           padding: 15px;
          </string>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_14">
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QWidget" name="widget_9" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1228,6 +1243,105 @@ QRadioButton::indicator:checked {
                   <widget class="QRadioButton" name="daily_ot">
                    <property name="text">
                     <string>Daily OT</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QWidget" name="widget_24" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QRadioButton {
+    spacing: 8px;
+    font-size: 13px;
+    color: white;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    border: 2px solid #CBD5E1;
+    background-color: white;
+}
+
+QRadioButton::indicator:hover {
+    border: 2px solid #4F46E5;
+}
+
+QRadioButton::indicator:checked {
+    background-color: #4F46E5;
+    border: 2px solid #4F46E5;
+}</string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lab_salary_methord">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Salary Calculation Methord</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="calendar_days">
+                   <property name="text">
+                    <string>Calendar Days</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="working_days">
+                   <property name="text">
+                    <string>Working Days</string>
                    </property>
                   </widget>
                  </item>

@@ -201,13 +201,14 @@ def save_settings_to_db(settings_object) :
     try :
         store_settings(
             entry_id=settings_object.entry_id,
-            two_punch_duration=settings_object.two_punch_duration,
-            four_punch_duration=settings_object.four_punch_duration,
+            work_duration=settings_object.work_duration,
+            break_duration=settings_object.break_duration,
             grace_time=settings_object.grace_time,
             min_OT_duration=settings_object.min_OT_duration,
             paid_leaves=settings_object.paid_leaves,
             num_days=settings_object.days_in_month,
             OT_multiplier=settings_object.OT_multiplier,
+            salary_method=settings_object.salary_method,
             OT_method=settings_object.ot_calculation_method,
             early_checkout_deduction=settings_object.early_checkout,
             enable_payroll=settings_object.enable_payroll
@@ -223,16 +224,17 @@ def fetch_settings_from_db() :
     try :
         rows_settings=retrieve_settings()
         print("Settings retrieved from database successfully.")
-        result_dictionary={"2_punch": rows_settings[1], 
-                "4_punch": rows_settings[2],
+        result_dictionary={"work_duration": rows_settings[1], 
+                "break_duration": rows_settings[2],
                 "grace_time": rows_settings[3], 
                 "min_OT_duration": rows_settings[4], 
                 "paid_leaves": rows_settings[5], 
                 "num_days": rows_settings[6], 
                 "OT_multiplier": rows_settings[7],
-                "OT_method": rows_settings[8], 
-                "early_checkout": rows_settings[9],
-                "enable_payroll": rows_settings[10]}
+                "salary_method": rows_settings[8],
+                "OT_method": rows_settings[9], 
+                "early_checkout": rows_settings[10],
+                "enable_payroll": rows_settings[11]}
         
         return {"success": True, "result": result_dictionary}
     except Exception as e:

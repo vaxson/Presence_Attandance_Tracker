@@ -191,30 +191,31 @@ def retrieve_device_information(device_id) :
 
 
 
-def store_settings(entry_id,two_punch_duration, four_punch_duration, grace_time, min_OT_duration, paid_leaves, num_days, OT_multiplier,OT_method, early_checkout_deduction, enable_payroll) :
+def store_settings(entry_id,work_duration, break_duration, grace_time, min_OT_duration, paid_leaves, num_days, OT_multiplier,salary_method,OT_method, early_checkout_deduction, enable_payroll) :
     db_connection=sqlite3.connect("database/settings.db")
     cursor=db_connection.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS settings (
                    entry_id INTEGER PRIMARY KEY,
-                    two_punch_duration INTEGER ,
-                    four_punch_duration INTEGER,
+                    work_duration INTEGER ,
+                    break_duration INTEGER,
                     grace_time INTEGER,
                     min_OT_duration INTEGER,
                     paid_leaves INTEGER,
                     num_days INTEGER,
                    OT_multiplier REAL,
+                    salary_method BOOLEAN,
                     OT_method BOOLEAN,
                     early_checkout_deduction BOOLEAN,
                     enable_payroll BOOLEAN)
                    ''')
     cursor.execute('''INSERT OR REPLACE INTO settings 
-                   (entry_id, two_punch_duration, four_punch_duration, 
+                   (entry_id, work_duration, break_duration, 
                    grace_time, min_OT_duration, paid_leaves, 
-                   num_days, OT_multiplier, OT_method, early_checkout_deduction, 
+                   num_days, OT_multiplier, salary_method, OT_method, early_checkout_deduction, 
                    enable_payroll) 
-                   VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', 
-                   (entry_id,two_punch_duration, four_punch_duration, grace_time, 
-                    min_OT_duration, paid_leaves, num_days, OT_multiplier,OT_method, 
+                   VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)''', 
+                   (entry_id,work_duration, break_duration, grace_time, 
+                    min_OT_duration, paid_leaves, num_days, OT_multiplier,salary_method,OT_method, 
                     early_checkout_deduction, enable_payroll)
                     )
     db_connection.commit()
