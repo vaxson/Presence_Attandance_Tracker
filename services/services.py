@@ -104,6 +104,8 @@ def fetch_attendance_daterange(device,start_date,end_date):
     dataFrame=fetch_attendance_date_range(device.device_name,start_date,end_date)
     return {"success":True,"result":dataFrame}
 
+
+
 ''' 
 * Check if the model user object belong to the same device.
 * Make safty.

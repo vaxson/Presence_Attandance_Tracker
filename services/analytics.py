@@ -39,29 +39,3 @@ def work_hours_calculation(date_punch_dictionary,start_date,end_date) :
 
 # ------------------------------------------------------------------------------------------------------------------------
 # using dataframe from pandas
-def user_attendance(users_list,start_Date,end_Date):
-    for user in users_list :
-        if user.dataFrame is not None :
-            df=user.dataFrame
-            df["timestamp"]=pd.to_datetime(df["timestamp"])
-            df.sort_values(by="timestamp", inplace=True)
-            df["date"]=df["timestamp"].dt.date
-            df["time"]=df["timestamp"].dt.time
-            print(df.head())
-            
-           
-
-'''
-            punch_times.sort()
-            if len(punch_times) >= 2 :
-                first_punch=punch_times[0]
-                last_punch=punch_times[-1]
-                work_hours=datetime.combine(datetime.min,current_date) + (datetime.combine(datetime.min,last_punch) - datetime.combine(datetime.min,first_punch))
-                print(f"Date: {current_date}, Work Hours: {work_hours.time()}")
-            else :
-                print(f"Date: {current_date}, Insufficient punch data.")
-        else :
-            print(f"Date: {current_date}, No punch data.")
-        current_date += timedelta(days=1)
-    '''
-    

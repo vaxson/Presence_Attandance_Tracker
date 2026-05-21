@@ -99,15 +99,21 @@ class Attendance_page :
         first_punch=0
         last_punch=0
         work_hours=0
+        # Attendance calculation variables
+        minimum_duration=2.5
+        full_duration=None
+        half_duration=None
+        early_exit_duration=None
+
         aggregate_dataFrame=user_dataFrame.groupby("date")["time"].agg("count").reset_index()
         # Iterates over each dates
         for aggregate in aggregate_dataFrame.itertuples() :
             status=None
             # print(f"Aggregate : {aggregate}")
             if(aggregate.time == 0) :
-                print(f"{aggregate.date} : Absent ")
-                # aggregate["status"]="Absent"
-                # aggregate["hours"]=0
+                # print(f"{aggregate.date} : Absent ")
+                aggregate_dataFrame.loc[aggregate.Index,"status"]="Absent"
+                aggregate_dataFrame.loc[aggregate.Index,"hours"]=0
                 continue
             
             # Even punches for valid punches
@@ -120,44 +126,54 @@ class Attendance_page :
                         last_punch=user_DF.timestamp
                         total_seconds = (last_punch - first_punch).total_seconds()
                         hours = total_seconds / 3600
-                        work_hours=work_hours+hours
+                        work_hours=round(work_hours+hours,2)
                         first_punch=0
                         last_punch=0
 
                 if(aggregate.time ==2):
-                    if(work_hours >= self.grace_time and  work_hours <= ((self.work_duration+self.break_duration)/2)-(self.grace_time/2)) :
-                        status="Half Day"
-                    elif(work_hours >  ((self.work_duration+self.break_duration)/2)-(self.grace_time/2) and work_hours < (self.work_duration + self.break_duration) - self.grace_time):
-                        status="Early Exit"
-                    elif(work_hours>=(self.work_duration + self.break_duration)-self.grace_time and work_hours < (self.work_duration + self.break_duration)+ self.min_OT):
-                        status="Full Day"
-                    elif(work_hours>=(self.work_duration + self.break_duration)+ self.min_OT):
-                        status="Over Time"
+                    full_duration=self.work_duration + self.break_duration
+                    half_duration=full_duration/2
+                    if(work_hours < minimum_duration) :
+                        status="Absent"
+                    elif(work_hours >= minimum_duration and work_hours < half_duration) :
+                        status="Half_Day"
+                    elif(work_hours >  half_duration and work_hours < full_duration - self.grace_time):
+                        status="Early_Exit"
+                    elif(work_hours > full_duration-self.grace_time and work_hours < full_duration+ self.min_OT):
+                        status="Full_Day"
+                    elif(work_hours> full_duration + self.min_OT):
+                        status="Over_Time"
 
                 elif(aggregate.time >2):
-                    if(work_hours >= self.grace_time and work_hours <= (self.work_duration/2) - (self.grace_time/2)) :
-                        status="4 Half Day"
-                    elif( work_hours > (self.work_duration/2) - (self.grace_time/2) and work_hours < self.work_duration-self.grace_time):
-                        status="4 Early Exit"
-                    elif(work_hours >= (self.work_duration -self.grace_time) and work_hours < (self.work_duration + self.min_OT)):
-                        status="4 Full Day"
-                    elif(work_hours >= (self.work_duration + self.min_OT)):
-                        status="4 Over Time"
+                    full_duration=self.work_duration 
+                    half_duration=full_duration/2
+                    if(work_hours < minimum_duration) :
+                        status="Absent"
+                    elif(work_hours > minimum_duration and work_hours < half_duration) :
+                        status="Half_Day"
+                    elif( work_hours > half_duration  and work_hours < full_duration-self.grace_time):
+                        status="Early_Exit"
+                    elif(work_hours >= (full_duration -self.grace_time) and work_hours < (full_duration + self.min_OT)):
+                        status="Full_Day"
+                    elif(work_hours >= (full_duration + self.min_OT)):
+                        status="Over_Time"
 
                 # print(f"Check : {user_dataFrame.groupby('date')['time'].apply(list)}")
                 hours=int(work_hours)
                 minutes=round(60*(work_hours%1))
-                # aggregate["status"]=status
-                # aggregate["hours"]=hours+minutes/100
-                print(f"Date {aggregate.date} | Present |RAW Work: {work_hours} Work Duration :{hours+(minutes/100)} | {status}")
+                aggregate_dataFrame.loc[aggregate.Index,"status"]=status
+                aggregate_dataFrame.loc[aggregate.Index,"hours"]=hours+minutes/100
+                # print(f"index :{aggregate.Index} Date {aggregate.date} | Present |RAW Work: {work_hours} Work Duration :{hours+(minutes/100)} | {status}")
                 work_hours=0
             
             # ODD PUNCHES FOR MISS PUNCH
             elif(aggregate.time %2 > 0) :
-                print(f"Date {aggregate.date} | Present, Miss punch")
-                # aggregate["status"]="Miss Punch"
-                # aggregate["hours"]=0
+                # print(f"Date {aggregate.date} | Present, Miss punch")
+                aggregate_dataFrame.loc[aggregate.Index,"status"]="Miss Punch"
+                aggregate_dataFrame.loc[aggregate.Index,"hours"]=0
                 continue
+        user_dataFrame=aggregate_dataFrame[["date","status","hours"]]    
+        print(user_dataFrame)
             
     def report_generation(self) :
         pass
