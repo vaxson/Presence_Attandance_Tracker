@@ -2,7 +2,7 @@ from device.Zk_device import *
 from models.Users import Users
 from models.Attendance import Attendance
 from database.sqlite_db import *
-from services.analytics import *
+# from services.analytics import *
 
 #Device operations.
 def get_device_connection(ipaddress,port_number,device_name) :
@@ -192,8 +192,8 @@ def configuration_retrieve_db(configuration_id) :
 
 
 
-def analyze(datarows, start_date,end_date) :
-    return attendance_analyze(datarows,start_date=start_date,end_date=end_date)
+# def analyze(datarows, start_date,end_date) :
+#     return attendance_analyze(datarows,start_date=start_date,end_date=end_date)
 
 
 # Actions for settings page

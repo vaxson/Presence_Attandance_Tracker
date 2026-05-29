@@ -34,7 +34,7 @@ settings_page=Settings()
 date_selection=Date_selection()
 
 #Attendance page object
-attendance_page=Attendance_page()
+# attendance_page=Attendance_page()
 
 #user_data=fetch_users_from_db(dev1)
 #data=fetch_attendance_user_daterange(device_1,5,"2025-02-01 00:00:00","2025-03-01 00:00:00") 
@@ -57,6 +57,7 @@ def handle_click(obj) :
 def user_btn_clicked(obj) :
     #drop_database_table(device_1,1)
     name=obj.objectName()
+   
     print(f"Object name: {name}")
     result=Thread(target=fetch_user_from_device, args=(device_1,)).start()
 
@@ -75,6 +76,8 @@ def user_btn_clicked(obj) :
 
 #callback for attendance button machine 1 and 2  
 def attandance_btn_clicked(obj) :
+    window.attendance_page=Attendance_page()
+    attendance_page=window.attendance_page
     name=obj.objectName()
     if("label_attandance_machine1" in name) :
         print(f"Clicked on attendance machine 1") 
@@ -83,7 +86,9 @@ def attandance_btn_clicked(obj) :
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
-        attendance_page.user_get_attendance(device_1,start_date,end_date)
+        attendance_page.get_attendance(device_1,settings_page,start_date,end_date)
+        attendance_page.ui.show()
+        
 
 
     elif("label_attandance_machine2" in name) :
@@ -91,6 +96,7 @@ def attandance_btn_clicked(obj) :
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
+    # attendance_page=Attendance_page()
     
 #callback for configuration button machine 1 and 2
 def configuration_btn_clicked(obj) :

@@ -77,6 +77,14 @@ class Settings :
             else :
                 self.ui.enable_payroll.setChecked(False)
                 self.enable_payroll=False
+            if(settings["salary_method"]==1) :
+                self.ui.calendar_days.setChecked(True)
+                self.ui.working_days.setChecked(False)
+                self.salary_method=True
+            else :
+                self.ui.calendar_days.setChecked(False)
+                self.ui.working_days.setChecked(True)
+                self.salary_method=False
 
             
         else :
@@ -98,6 +106,7 @@ class Settings :
         self.early_checkout=bool(self.ui.early_checkout.isChecked())    
         self.enable_payroll=bool(self.ui.enable_payroll.isChecked())
         save_settings_to_db(self)
+        self.get_valuesdb()
 
     def cancel_button_clicked(self) :
         self.ui.close()

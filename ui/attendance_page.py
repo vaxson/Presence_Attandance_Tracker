@@ -1,17 +1,26 @@
-from PySide6.QtUiTools import QUiLoader 
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import QHeaderView, QRadioButton, QTableWidgetItem, QWidget 
 from services.services import *
-from services.analytics import user_attendance
 from datetime import datetime
 import pandas as pd
+from services.analytics import user_get_attendance
 
-class Attendance_page :
+class Attendance_page(QWidget): 
     def __init__(self):
+        super().__init__()
+        self.radio_buttons_list=[]
         loader=QUiLoader()
-        self.ui=loader.load("ui/attendance.ui")
-        self.ui.lab_table_name.setText("Attendance")
+        self.ui=loader.load("ui/attendance_v2.ui")
+        # self.ui.lab_table_name.setText("Attendance")
         self.start_date=None
         self.end_date=None
-        self.users_list= []
+        
+
+        header = self.ui.attendance_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.Stretch)
+            
         # Calculation Variables
         settings_dictionary=fetch_settings_from_db()
         if(settings_dictionary["success"]) :
@@ -30,7 +39,12 @@ class Attendance_page :
         else :
             print(f"Unable to fetch settings form DB (ATT_pg :08)")
 
+        self.layout_sidebar=self.ui.scrollAreaWidgetContents.layout()
+        self.ui.btn_cancel.clicked.connect(self.cancel_button_clicked)
+
         
+    def cancel_button_clicked(self) :
+        self.ui.close()
 
     def sync_attendance(self,device) :
         try :
@@ -43,169 +57,69 @@ class Attendance_page :
         
         
 
-
-    def user_get_attendance(self,device,start_date,end_date):
-        # Sync the settings variables
-        settings_dictionary=fetch_settings_from_db()
-        if(settings_dictionary["success"]) :
-            settings=settings_dictionary["result"]
-            self.work_duration=settings["work_duration"]
-            self.break_duration=settings["break_duration"]
-            self.grace_time=settings['grace_time']
-            self.min_OT=settings['min_OT_duration']
-            self.paid_leaves=settings['paid_leaves']
-            self.days_in_month=settings['num_days']
-            self.OT_multiplier=settings['OT_multiplier']
-            self.salary_method=settings['salary_method']
-            self.ot_methord=settings['OT_method']
-            self.early_checkout=settings['early_checkout']
-            self.enable_payroll=settings['enable_payroll']
-        else :
-            print(f"Unable to fetch settings form DB (ATT_pg :08)")
-
+    def get_attendance(self,device,settings_object,start_date,end_date) :
         self.start_date=start_date
         self.end_date=end_date
-        all_dates=pd.date_range(self.start_date,self.end_date)
-        all_dates=pd.DataFrame({"date" : all_dates})
-        # Fetch attendance data for the specified device and users
-        # self.users_list=fetch_users_from_db(device=device)
-        # self.users_list=self.users_list["result"]
-        # for users in self.users_list :
-        result=fetch_attendance_daterange(device,self.start_date,self.end_date)  
-        users=fetch_users_from_db(device=device)
-        self.users_list=users["result"]
-        if result["success"]:
-            dataFrame = result["result"]
-            dataFrame["timestamp"]=pd.to_datetime(dataFrame["timestamp"])
-            dataFrame=dataFrame.sort_values("timestamp")
-            dataFrame["date"]=dataFrame["timestamp"].dt.floor("D")
-            dataFrame["time"]=dataFrame["timestamp"].dt.time
-            for user in self.users_list :
-                print(f"user Name : {user.name}")
-                user.dataFrame=dataFrame[dataFrame["name"]==user.name]
-                all_date=all_dates.merge(user.dataFrame,on="date",how="left").sort_values(["date","time"])
-                # print(f"USR DF {user.dataFrame}")
-                # print(f"All Dates : {all_dates}")
-                # print(f"ALl DATE : {all_date}")
-                # print(all_date.groupby('date')["time"].agg("count").reset_index())
-                self.calculations(all_date)
-                
-
-
-
-
-
-    def calculations(self,user_dataFrame) :
-        first_punch=0
-        last_punch=0
-        work_hours=0
-        # Attendance calculation variables
-        minimum_duration=2.5
-        full_duration=None
-        half_duration=None
-        early_exit_duration=None
-
-        aggregate_dataFrame=user_dataFrame.groupby("date")["time"].agg("count").reset_index()
-        # Iterates over each dates
-        for aggregate in aggregate_dataFrame.itertuples() :
-            status=None
-            # print(f"Aggregate : {aggregate}")
-            if(aggregate.time == 0) :
-                # print(f"{aggregate.date} : Absent ")
-                aggregate_dataFrame.loc[aggregate.Index,"status"]="Absent"
-                aggregate_dataFrame.loc[aggregate.Index,"hours"]=0
-                continue
-            
-            # Even punches for valid punches
-            elif(aggregate.time %2 ==0) :
-                # counting each punches for the date and calculating work hours
-                for user_DF in user_dataFrame[user_dataFrame['date']==aggregate.date].itertuples() :
-                    if(first_punch==0):
-                        first_punch=user_DF.timestamp
-                    else :
-                        last_punch=user_DF.timestamp
-                        total_seconds = (last_punch - first_punch).total_seconds()
-                        hours = total_seconds / 3600
-                        work_hours=round(work_hours+hours,2)
-                        first_punch=0
-                        last_punch=0
-
-                if(aggregate.time ==2):
-                    full_duration=self.work_duration + self.break_duration
-                    half_duration=full_duration/2
-                    if(work_hours < minimum_duration) :
-                        status="Absent"
-                    elif(work_hours >= minimum_duration and work_hours < half_duration) :
-                        status="Half_Day"
-                    elif(work_hours >  half_duration and work_hours < full_duration - self.grace_time):
-                        status="Early_Exit"
-                    elif(work_hours > full_duration-self.grace_time and work_hours < full_duration+ self.min_OT):
-                        status="Full_Day"
-                    elif(work_hours> full_duration + self.min_OT):
-                        status="Over_Time"
-
-                elif(aggregate.time >2):
-                    full_duration=self.work_duration 
-                    half_duration=full_duration/2
-                    if(work_hours < minimum_duration) :
-                        status="Absent"
-                    elif(work_hours > minimum_duration and work_hours < half_duration) :
-                        status="Half_Day"
-                    elif( work_hours > half_duration  and work_hours < full_duration-self.grace_time):
-                        status="Early_Exit"
-                    elif(work_hours >= (full_duration -self.grace_time) and work_hours < (full_duration + self.min_OT)):
-                        status="Full_Day"
-                    elif(work_hours >= (full_duration + self.min_OT)):
-                        status="Over_Time"
-
-                # print(f"Check : {user_dataFrame.groupby('date')['time'].apply(list)}")
-                hours=int(work_hours)
-                minutes=round(60*(work_hours%1))
-                aggregate_dataFrame.loc[aggregate.Index,"status"]=status
-                aggregate_dataFrame.loc[aggregate.Index,"hours"]=hours+minutes/100
-                # print(f"index :{aggregate.Index} Date {aggregate.date} | Present |RAW Work: {work_hours} Work Duration :{hours+(minutes/100)} | {status}")
-                work_hours=0
-            
-            # ODD PUNCHES FOR MISS PUNCH
-            elif(aggregate.time %2 > 0) :
-                # print(f"Date {aggregate.date} | Present, Miss punch")
-                aggregate_dataFrame.loc[aggregate.Index,"status"]="Miss Punch"
-                aggregate_dataFrame.loc[aggregate.Index,"hours"]=0
-                continue
-        user_dataFrame=aggregate_dataFrame[["date","status","hours"]]    
-        print(user_dataFrame)
-            
-    def report_generation(self) :
-        pass
-        
-            # print(f"Date :{aggregate.date} | Count : {aggregate.time}")
-        #aggregate_dataFrame=aggregate_dataFrame["date"]
-        # print(aggregate_dataFrame)
-        # for x in user_dataFrame.itertuples():
-        #     print(f"date: {x.time[0]} : {x.time[-1]}")
-
-        # work_hours=0
-        # time_length=len(user_dataFrame["time"])
-        # print(f"Time lngth : {time_length}")
-        # if time_length==0:
-        #     print(f"{user_dataFrame['date']} | Absent")
-        #     return None
-        # elif time_length % 2 >0 :
-        #     print(f"{user_dataFrame['date']} :Present | MISS PUNCH")
-        #     return None
-        # elif time_length %2==0 :
-        #     for index in range(0,time_length,2):
-        #         in_punch=user_dataFrame["time"][index]
-        #         out_punch=user_dataFrame["time"][index+1]
-        #         duration=out_punch-in_punch  
-        #         work_hours=work_hours+duration
-        #     print(f"{user_dataFrame['date']}: present : Hours {work_hours}")
-                
-            
-       
+        modelusers=user_get_attendance(device,settings_object,start_date,end_date)
+        self.fill_radiobtn(modelusers)
+    
+    
             
 
         
-    def display_attendance(self) :
-        user_attendance(self.users_list,self.start_date,self.end_date)
- 
+    def fill_radiobtn(self,modelusers) :
+        for user in modelusers :
+            if user.dataFrame["status"].isin(["Full_Day", "Over_Time", "Early_Exit", "Half_Day","Miss_Punch"]).any():
+                radio=QRadioButton(user.name)
+                radio.modeluser=user
+                radio.clicked.connect(self.radio_btn_clicked)
+                # self.layout_sidebar.addWidget(radio)
+                self.layout_sidebar.insertWidget(self.layout_sidebar.count() - 1, radio)
+                
+
+    def radio_btn_clicked(self) :
+        
+        radio=self.sender()
+        user_object=radio.modeluser
+        attendance_dataFrame=user_object.dataFrame
+        self.ui.user_id.setText(str(user_object.uid))
+        self.ui.user_name.setText(str(user_object.name))
+        self.ui.from_to.setText(f"{self.start_date.strftime('%d-%m-%y')}   TO   {self.end_date.strftime('%d-%m-%y')}")
+        self.ui.attendance_table.setRowCount(len(attendance_dataFrame))
+        self.ui.attendance_table.setColumnCount(len(attendance_dataFrame.columns))
+        # self.ui.attendance_table.setHorizontalHeaderLabels(attendance_dataFrame.columns)
+        row_count=0
+        for row in attendance_dataFrame.itertuples() :
+            date=row[1].strftime('%d-%m-%y')
+            time=round(row[3], 2)
+            date=QTableWidgetItem(str(date))
+            time=QTableWidgetItem(str(time))
+            status=QTableWidgetItem(str(row[2]))
+            self.ui.attendance_table.setItem(row_count,0,date)
+            self.ui.attendance_table.setItem(row_count,1,time)
+            self.ui.attendance_table.setItem(row_count,2,status)
+            row_count +=1
+        # Defines the length of the table. 
+        # Wrong inputs reduces the table visibility
+        self.ui.attendance_table.setFixedHeight(row_count*30)
+        
+        full_days_count=attendance_dataFrame["status"].value_counts()["Full_Day"]
+        half_days_count=attendance_dataFrame["status"].value_counts()["Half_Day"]
+        early_exit_count=attendance_dataFrame["status"].value_counts()["Early_Exit"]
+        over_time_count=attendance_dataFrame["status"].value_counts()["Over_Time"]
+        miss_punch_count=attendance_dataFrame["status"].value_counts()["Miss_Punch"]
+        absent_count=attendance_dataFrame["status"].value_counts()["Absent"]
+        self.ui.present_days.setText(str(full_days_count))
+        self.ui.half_days.setText(str(half_days_count))
+        self.ui.early_exit.setText(str(early_exit_count))
+        self.ui.over_time.setText(str(over_time_count))
+        self.ui.miss_punch.setText(str(miss_punch_count))
+        self.ui.absent.setText(str(absent_count))
+
+            
+            
+            
+            
+
+                
+                
