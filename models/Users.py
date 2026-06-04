@@ -7,3 +7,4 @@ class Users :
         self.salary=0
         self.isOtEnabled=False
         self.dataFrame=None
+        self.payroll_dataFrame=None

@@ -14,13 +14,22 @@ class Attendance_page(QWidget):
         # self.ui.lab_table_name.setText("Attendance")
         self.start_date=None
         self.end_date=None
-        
+
+        # attendance Variables
+        self.full_days_count=None
+        self.half_days_count=None
+        self.early_exit_count=None
+        self.miss_punch_count=None
+        self.over_time_count=None
+        self.absent_count=None
 
         header = self.ui.attendance_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QHeaderView.Stretch)
-            
+        # Progressbar initialization to 0
+        self.ui.attendance_persentage.setValue(0)
+
         # Calculation Variables
         settings_dictionary=fetch_settings_from_db()
         if(settings_dictionary["success"]) :
@@ -82,9 +91,49 @@ class Attendance_page(QWidget):
         radio=self.sender()
         user_object=radio.modeluser
         attendance_dataFrame=user_object.dataFrame
+
+        # Update Tab above the table.
         self.ui.user_id.setText(str(user_object.uid))
         self.ui.user_name.setText(str(user_object.name))
         self.ui.from_to.setText(f"{self.start_date.strftime('%d-%m-%y')}   TO   {self.end_date.strftime('%d-%m-%y')}")
+        # Function call to update the table and analytics.
+        self.update_table(attendance_dataFrame)
+        self.update_attendance_analyitcs(attendance_dataFrame)
+        self.update_salary_part(user_object)
+
+       
+
+    def update_attendance_analyitcs(self,attendance_dataFrame) :
+        dataFrame_overview=attendance_dataFrame["status"].value_counts()
+        self.full_days_count=dataFrame_overview.get("Full_Day", 0)
+        self.half_days_count=dataFrame_overview.get("Half_Day", 0)
+        self.early_exit_count=dataFrame_overview.get("Early_Exit", 0)
+        self.miss_punch_count=dataFrame_overview.get("Miss_Punch", 0)
+        self.over_time_count=dataFrame_overview.get("Over_Time", 0)
+        self.absent_count=dataFrame_overview.get("Absent", 0)
+
+        self.ui.present_days.setText(str(self.full_days_count))
+        self.ui.half_days.setText(str(self.half_days_count))
+        self.ui.early_exit.setText(str(self.early_exit_count))
+        self.ui.over_time.setText(str(self.over_time_count))
+        self.ui.miss_punch.setText(str(self.miss_punch_count))
+        self.ui.absent.setText(str(self.absent_count))
+        
+        # Update the attendace persentage
+        self.ui.attendance_persentage.setValue(0)
+        total_days=self.full_days_count+self.half_days_count+self.early_exit_count+self.miss_punch_count+self.over_time_count+self.absent_count
+        try :
+            absence_percentage=round((self.absent_count/total_days)*100,2)
+        except ZeroDivisionError :
+            absence_percentage=0
+        attendance_percentage=100-absence_percentage
+        print(f"Attendance Percentage : {attendance_percentage}")
+        self.ui.attendance_persentage.setValue(attendance_percentage)
+
+
+
+    
+    def update_table(self,attendance_dataFrame) :
         self.ui.attendance_table.setRowCount(len(attendance_dataFrame))
         self.ui.attendance_table.setColumnCount(len(attendance_dataFrame.columns))
         # self.ui.attendance_table.setHorizontalHeaderLabels(attendance_dataFrame.columns)
@@ -102,20 +151,22 @@ class Attendance_page(QWidget):
         # Defines the length of the table. 
         # Wrong inputs reduces the table visibility
         self.ui.attendance_table.setFixedHeight(row_count*30)
-        
-        full_days_count=attendance_dataFrame["status"].value_counts()["Full_Day"]
-        half_days_count=attendance_dataFrame["status"].value_counts()["Half_Day"]
-        early_exit_count=attendance_dataFrame["status"].value_counts()["Early_Exit"]
-        over_time_count=attendance_dataFrame["status"].value_counts()["Over_Time"]
-        miss_punch_count=attendance_dataFrame["status"].value_counts()["Miss_Punch"]
-        absent_count=attendance_dataFrame["status"].value_counts()["Absent"]
-        self.ui.present_days.setText(str(full_days_count))
-        self.ui.half_days.setText(str(half_days_count))
-        self.ui.early_exit.setText(str(early_exit_count))
-        self.ui.over_time.setText(str(over_time_count))
-        self.ui.miss_punch.setText(str(miss_punch_count))
-        self.ui.absent.setText(str(absent_count))
 
+
+    def update_salary_part(self,user_object) :
+        self.ui.payroll_frame.setVisible(True)
+        self.ui.lab_payroll.setVisible(True)
+        try :
+            self.ui.daily_pay.setText(str(user_object.daily_pay))
+            self.ui.paid_leaves.setText(str(user_object.leaves_in_attendance_range))
+            self.ui.encashment.setText(str(user_object.leave_encashment))
+            salary=user_object.leave_encashment+user_object.sum_payroll
+            self.ui.salary.setText(str(salary))
+        except Exception as e :
+            self.ui.payroll_frame.setVisible(False)
+            self.ui.lab_payroll.setText("Salary Unable to Calculate")
+            
+        
             
             
             

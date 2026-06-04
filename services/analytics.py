@@ -152,6 +152,7 @@ def calculations(settings,user_object) :
                     status="Full_Day"
                 elif(work_hours> full_duration + min_OT):
                     status="Over_Time"
+                work_hours=work_hours-break_duration
 
             elif(aggregate.time >2):
                 full_duration=work_duration 
@@ -166,7 +167,7 @@ def calculations(settings,user_object) :
                     status="Full_Day"
                 elif(work_hours >= (full_duration + min_OT)):
                     status="Over_Time"
-
+                    
             # print(f"Check : {user_dataFrame.groupby('date')['time'].apply(list)}")
             hours=int(work_hours)
             minutes=round(60*(work_hours%1))
@@ -186,10 +187,13 @@ def calculations(settings,user_object) :
     user_object.dataFrame=user_dataFrame
     # print(f"User Attendance : {user_object.dataFrame}")
     # print(f"User Aggregate : {aggregate_dataFrame}")
+    # Calculate Payroll if Enabled
+    if settings.enable_payroll == True :
+        calculate_payroll(settings,user_object)
     return user_object
 
 
-def report_generation(settings):
+def calculate_payroll(settings,user_object):
     # settings variables
     paid_leaves=settings.paid_leaves
     days_in_month=settings.days_in_month
@@ -198,3 +202,86 @@ def report_generation(settings):
     ot_methord=settings.ot_calculation_method
     early_checkout=settings.early_checkout
     enable_payroll=settings.enable_payroll
+    
+    #PayOut Running vatiable 
+    sum_payroll=0
+
+    if(salary_method==True):
+        daily_wage=user_object.salary/days_in_month
+        half_day_wage=daily_wage/2
+
+        try :
+            hourly_wage=daily_wage/settings.work_duration
+            
+        except Exception as e :
+            return{"success" : False, "result" :"work hours error"}
+        
+        # Considering paid leaves can also be 0, Handling division by zero error
+        try :
+            leaves_in_attendance_range=paid_leaves/days_in_month * len(user_object.dataFrame)
+            leaves_in_attendance_range=round(leaves_in_attendance_range*2)/2
+        except Exception as e:
+            leaves_in_attendance_range=0
+
+   
+        
+
+
+        dataFrame_overview=user_object.dataFrame["status"].value_counts()
+        
+        # Salary Calculation Halted for Miss Punches.
+        if(dataFrame_overview.get("Miss_Punch")) :
+            print(f"User {user_object.name} has Miss Punches. Payroll cannot be calculated accurately.")
+            miss_punch_count=dataFrame_overview.get("Miss_Punch", 0)
+            sum_payroll=0
+            print(f"mis :{miss_punch_count*daily_wage} | sum_payroll :{sum_payroll}")
+            # return {"success":False,"result":"User has Miss Punches. Payroll cannot be calculated accurately."}
+        
+        full_days=dataFrame_overview.get("Full_Day",0)
+        half_days=dataFrame_overview.get("Half_Day",0)
+        early_exit_count=dataFrame_overview.get("Early_Exit", 0)
+        over_time_count=dataFrame_overview.get("Over_Time", 0)
+        absent_count=dataFrame_overview.get("Absent", 0)
+
+        sum_payroll=sum_payroll+(full_days*daily_wage)
+        print(f"full :{full_days*daily_wage}| sum_payroll :{sum_payroll}")
+        sum_payroll+=half_days*half_day_wage
+        print(f"hlf :{half_days*half_day_wage} | sum_payroll :{sum_payroll}")
+        
+        #Early Checkout calculations. 
+        if early_checkout == False and early_exit_count > 0 :
+            sum_payroll+=early_exit_count*daily_wage
+            print(f"Early checkout :{early_exit_count*daily_wage} | sum_payroll :{sum_payroll}")
+        elif early_checkout == True and early_exit_count > 0 :
+            early_exit_df=user_object.dataFrame[user_object.dataFrame["status"]=="Early_Exit"]
+            sumEarlyexitHours=early_exit_df["hours"].sum()
+            sum_payroll+=sumEarlyexitHours*hourly_wage
+            print(f"Early checkout :{early_exit_count*hourly_wage} | sum_payroll :{sum_payroll}")
+
+        # Over Time Calculation.
+        if user_object.isOtEnabled ==True and over_time_count > 0 :
+            if ot_methord ==True :
+                overTime_DF=user_object.dataFrame[user_object.dataFrame["status"]=="Over_Time"]
+                sumOvertimeHours=overTime_DF["hours"].sum()
+                sum_payroll+=sumOvertimeHours * hourly_wage * OT_multiplier
+                print(f"OT : {sumOvertimeHours * hourly_wage * OT_multiplier} | sum_payroll :{sum_payroll}")
+                
+            elif ot_methord == False :
+                sum_payroll+=over_time_count * daily_wage * OT_multiplier
+                
+        else :
+            # Over Time disabled.
+            # Hence taking overtime days as full day payroll.
+            sum_payroll+=over_time_count*daily_wage
+        
+        
+        
+        user_object.leave_encashment=round(leaves_in_attendance_range*daily_wage,2)
+        user_object.sum_payroll=round(sum_payroll)
+        user_object.leaves_in_attendance_range=round(leaves_in_attendance_range,2)
+        user_object.daily_pay=round(daily_wage,2)
+        
+
+    
+        
+        

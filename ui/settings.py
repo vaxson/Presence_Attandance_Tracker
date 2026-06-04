@@ -17,6 +17,7 @@ class Settings :
         self.paid_leaves=None
         self.days_in_month=None
         self.OT_multiplier=None
+
         self.salary_methord=None
         self.ot_calculation_method=None
         self.early_checkout=None
@@ -93,7 +94,7 @@ class Settings :
 
     
     def save_button_clicked(self) :
-        print(f"Work Duration : {self.ui.work_duration.text()} Break Duration : {self.ui.break_duration.text()} Grace time : {self.ui.grace_time.text()} Minimum OT : {self.ui.min_OT.text()} Paid Leaves : {self.ui.paid_leaves.text()} Number of days : {self.ui.number_of_days.text()} OT Multiplier : {self.ui.ot_multiplier.text()}")
+        # print(f"Work Duration : {self.ui.work_duration.text()} Break Duration : {self.ui.break_duration.text()} Grace time : {self.ui.grace_time.text()} Minimum OT : {self.ui.min_OT.text()} Paid Leaves : {self.ui.paid_leaves.text()} Number of days : {self.ui.number_of_days.text()} OT Multiplier : {self.ui.ot_multiplier.text()}")
         self.work_duration=int(self.ui.work_duration.text())
         self.break_duration=int(self.ui.break_duration.text())
         self.grace_time=int(self.ui.grace_time.text())

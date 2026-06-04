@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>908</width>
+    <width>1020</width>
     <height>690</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>16777215</width>
+    <width>1020</width>
     <height>690</height>
    </size>
   </property>
@@ -207,8 +207,8 @@ QPushButton:pressed {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-380</y>
-        <width>632</width>
+        <y>-460</y>
+        <width>744</width>
         <height>1152</height>
        </rect>
       </property>
