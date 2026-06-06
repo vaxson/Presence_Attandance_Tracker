@@ -10,37 +10,65 @@
     <x>0</x>
     <y>0</y>
     <width>1020</width>
-    <height>683</height>
+    <height>634</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Presence</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QFrame{
-border-radius:10px;
-margin :6px;
-}
+   <string notr="true">
+/* ── Global dark theme matching settings.ui ── */
 
-QFrame[active=&quot;true&quot;]{
-background-color:#4c6ef5;
-color :white;}
+QMainWindow {
+    background-color: #11111a;
+}
 
 QFrame {
     background-color: transparent;
-    border-radius: 6px;
-    padding: 6px;
-}
-
-QFrame:hover {
-    background-color: #F7FFA9
+    border-radius: 8px;
 }
 
 QFrame[active=&quot;true&quot;] {
-    background-color: #1f6feb;
+    background-color: #1f6fea;
     color: white;
 }
 
+QLabel {
+    color: #e2e8f0;
+    background-color: transparent;
+}
+
+QRadioButton {
+    color: #e2e8f0;
+    background-color: transparent;
+    spacing: 8px;
+    font-size: 13px;
+}
+
+QRadioButton::indicator {
+    width: 0px;
+    height: 0px;
+}
+
+QPushButton {
+    background-color: #2a2a3d;
+    color: #e2e8f0;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QPushButton:hover {
+    background-color: #1f6fea;
+    color: white;
+}
+
+QPushButton:pressed {
+    background-color: #1558c0;
+}
 </string>
   </property>
   <widget class="QWidget" name="Presence_2">
@@ -57,8 +85,7 @@ QFrame[active=&quot;true&quot;] {
     </size>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color : white;
-</string>
+    <string notr="true">background-color: #11111a;</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <property name="leftMargin">
@@ -119,26 +146,70 @@ QFrame[active=&quot;true&quot;] {
            <property name="maximumSize">
             <size>
              <width>250</width>
-             <height>1000</height>
+             <height>16777215</height>
             </size>
            </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background-color:white;
-border-radius : 0px;
+            <string notr="true">
+QFrame#side_bar {
+    background-color: #11111a;
+    border-radius: 0px;
+    border-right: 1px solid #2a2a3d;
+}
 
+/* Nav item frames */
 QFrame {
     background-color: transparent;
-    border-radius: 6px;
-    padding: 6px;
+    border-radius: 8px;
 }
 
 QFrame:hover {
-    background-color: #F7FFA9;
+    background-color: #1e1e2f;
 }
 
 QFrame[active=&quot;true&quot;] {
-    background-color: #1f6feb;
+    background-color: #1f6fea;
     color: white;
+}
+
+QFrame[active=&quot;true&quot;] QLabel {
+    color: white;
+}
+
+QLabel {
+    color: #94a3b8;
+    background-color: transparent;
+    padding-left: 4px;
+    font-size: 12px;
+}
+
+QRadioButton {
+    color: #cbd5e1;
+    background-color: transparent;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QRadioButton:checked {
+    background-color: #1f6fea;
+    color: white;
+}
+
+QRadioButton:hover {
+    background-color: #1e1e2f;
+    border: 1px solid #4da3ff;
+}
+
+QRadioButton::indicator {
+    width: 0px;
+    height: 0px;
 }
 </string>
            </property>
@@ -150,46 +221,52 @@ QFrame[active=&quot;true&quot;] {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
-             <number>0</number>
+             <number>4</number>
             </property>
             <property name="leftMargin">
-             <number>0</number>
+             <number>12</number>
             </property>
             <property name="topMargin">
              <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>0</number>
+             <number>12</number>
             </property>
             <property name="bottomMargin">
-             <number>0</number>
+             <number>12</number>
             </property>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout">
               <property name="spacing">
-               <number>0</number>
+               <number>4</number>
               </property>
               <item>
                <widget class="QFrame" name="main_logo_and_name">
                 <property name="maximumSize">
                  <size>
                   <width>600</width>
-                  <height>81</height>
+                  <height>72</height>
                  </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>SimSun</family>
+                 </font>
                 </property>
                 <property name="cursor">
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QFrame {
+                 <string notr="true">
+QFrame {
     background-color: transparent;
-    border-radius: 6px;
-    padding: 6px;
+    border-radius: 0px;
+    border-bottom: 1px solid #2a2a3d;
+    padding: 0px;
+    margin: 0px;
 }
-
-QFrame[active=&quot;true&quot;] {
-    background-color: #1f6feb;
-    color: white;
+QFrame:hover {
+    background-color: transparent;
 }
 </string>
                 </property>
@@ -201,29 +278,29 @@ QFrame[active=&quot;true&quot;] {
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
                  <property name="spacing">
-                  <number>0</number>
+                  <number>8</number>
                  </property>
                  <property name="leftMargin">
-                  <number>0</number>
+                  <number>4</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>16</number>
                  </property>
                  <property name="rightMargin">
-                  <number>0</number>
+                  <number>4</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>16</number>
                  </property>
                  <item>
                   <widget class="QLabel" name="logo_presence">
                    <property name="font">
                     <font>
-                     <pointsize>8</pointsize>
+                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="cursor">
-                    <cursorShape>SplitVCursor</cursorShape>
+                    <cursorShape>PointingHandCursor</cursorShape>
                    </property>
                    <property name="text">
                     <string/>
@@ -232,10 +309,10 @@ QFrame[active=&quot;true&quot;] {
                     <pixmap>:/logos/flip_to_front_60dp_75FB4C_FILL0_wght100_GRAD200_opsz48.png</pixmap>
                    </property>
                    <property name="margin">
-                    <number>-15</number>
+                    <number>0</number>
                    </property>
                    <property name="indent">
-                    <number>-1</number>
+                    <number>0</number>
                    </property>
                   </widget>
                  </item>
@@ -244,17 +321,20 @@ QFrame[active=&quot;true&quot;] {
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>0</height>
+                     <height>40</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <family>Ubuntu Mono</family>
-                     <pointsize>15</pointsize>
+                     <pointsize>-1</pointsize>
                      <italic>false</italic>
-                     <bold>false</bold>
+                     <bold>true</bold>
                      <underline>false</underline>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: #e2e8f0; font-weight: 900; letter-spacing: 1px;</string>
                    </property>
                    <property name="text">
                     <string>Presence</string>
@@ -264,438 +344,480 @@ QFrame[active=&quot;true&quot;] {
                 </layout>
                </widget>
               </item>
+              <item>
+               <widget class="QWidget" name="widget_machine1" native="true">
+                <property name="styleSheet">
+                 <string notr="true">
+QFrame {
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+QFrame:hover {
+    background-color: #1e1e2f;
+}
+
+QFrame[active=&quot;true&quot;] {
+    background-color: #1f6fea;
+}
+
+QFrame[active=&quot;true&quot;] QLabel {
+    color: white;
+}
+
+QLabel {
+    color: #94a3b8;
+    font-size: 12px;
+    padding-left: 20px;
+}
+</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <property name="spacing">
+                  <number>2</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>8</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QRadioButton" name="rbtn_machine1">
+                   <property name="font">
+                    <font>
+                     <family>SimSun</family>
+                     <pointsize>-1</pointsize>
+                     <italic>false</italic>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+QRadioButton {
+    background-color: #1e1e2f;
+    color: #cbd5e1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QRadioButton:checked {
+    background-color: #1f6fea;
+    color: white;
+}
+
+QRadioButton:hover {
+    background-color: #252538;
+    border: 1px solid #4da3ff;
+}
+
+QRadioButton::indicator {
+    width: 0px;
+    height: 0px;
+}
+</string>
+                   </property>
+                   <property name="text">
+                    <string>Machine : 1</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>28</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_sub_machine1" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <property name="spacing">
+                     <number>2</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QFrame" name="btn_machine1_users">
+                      <property name="maximumSize">
+                       <size>
+                        <width>220</width>
+                        <height>44</height>
+                       </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_28">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_users_machine1">
+                         <property name="text">
+                          <string>Users</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="btn_machine1_attendance">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_29">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_attandance_machine1">
+                         <property name="text">
+                          <string>Attendance</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="btn_machine1_configure">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_30">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_configure_machine1">
+                         <property name="text">
+                          <string>Configure</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="rbtn_machine2">
+                   <property name="font">
+                    <font>
+                     <family>SimSun</family>
+                     <pointsize>-1</pointsize>
+                     <italic>false</italic>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">
+QRadioButton {
+    background-color: #1e1e2f;
+    color: #cbd5e1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QRadioButton:checked {
+    background-color: #1f6fea;
+    color: white;
+}
+
+QRadioButton:hover {
+    background-color: #252538;
+    border: 1px solid #4da3ff;
+}
+
+QRadioButton::indicator {
+    width: 0px;
+    height: 0px;
+}
+</string>
+                   </property>
+                   <property name="text">
+                    <string>Machine : 2</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>28</width>
+                     <height>28</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_sub_machine2" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                    <property name="spacing">
+                     <number>2</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QFrame" name="btn__users">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_32">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_users_machine2">
+                         <property name="font">
+                          <font>
+                           <pointsize>-1</pointsize>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Users</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="btn_machine2_attendance">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_33">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_attandance_machine2">
+                         <property name="text">
+                          <string>Attendance</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="btn_configure_machine2">
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_34" stretch="0">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_configure_machine2">
+                         <property name="text">
+                          <string>Configure</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
              </layout>
-            </item>
-            <item>
-             <widget class="QWidget" name="widget_machine1" native="true">
-              <property name="styleSheet">
-               <string notr="true">QFrame {
-    background-color: transparent;
-    border-radius: 6px;
-    padding: 6px;
-}
-
-QFrame:hover {
-    background-color: rgb(240,240,240);
-}
-
-QFrame[active=&quot;true&quot;] {
-    background-color: #1f6feb;
-    color: white;
-}
-</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QRadioButton" name="rbtn_machine1">
-                 <property name="font">
-                  <font>
-                   <family>SimSun</family>
-                   <pointsize>11</pointsize>
-                   <italic>false</italic>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QRadioButton {
-    background-color:rgb(240,240,240);
-    padding: 8px;
-    border-radius: 6px;
-}
-
-QRadioButton:checked {
-    background-color: #1f6feb;
-    color: white;
-}
-QRadioButton:hover {
-border :2px solid transparent;
-   border-color: #007bff;
-}
-
-QRadioButton::indicator {
-    width: 0;
-    height: 0;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Machine : 1</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>40</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QWidget" name="widget_sub_machine1" native="true">
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QFrame" name="btn_machine1_users">
-                    <property name="maximumSize">
-                     <size>
-                      <width>220</width>
-                      <height>60</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true"/>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_28">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_users_machine1">
-                       <property name="text">
-                        <string>Users</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QFrame" name="btn_machine1_attendance">
-                    <property name="styleSheet">
-                     <string notr="true">QFrame {
-    background-color: transparent;
-    border-radius: 6px;
-    padding: 6px;
-}
-
-QFrame:hover {
-    background-color: rgb(240,240,240);
-}
-
-QFrame[active=&quot;true&quot;] {
-    background-color: #1f6feb;
-    color: white;
-}
-</string>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_29">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_attandance_machine1">
-                       <property name="text">
-                        <string>Attendance</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QFrame" name="btn_machine1_configure">
-                    <property name="styleSheet">
-                     <string notr="true"/>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_30">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_configure_machine1">
-                       <property name="text">
-                        <string>Configure</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="rbtn_machine2">
-                 <property name="font">
-                  <font>
-                   <family>SimSun</family>
-                   <pointsize>11</pointsize>
-                   <italic>false</italic>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QRadioButton {
-    background-color:rgb(240,240,240);
-    padding: 8px;
-    border-radius: 6px;
-}
-
-QRadioButton:checked {
-    background-color: #1f6feb;
-    color: white;
-}
-QRadioButton:hover {
-border :2px solid transparent;
-   border-color: #007bff;
-}
-QRadioButton::indicator {
-    width: 0;
-    height: 0;
-}</string>
-                 </property>
-                 <property name="text">
-                  <string>Machine : 1</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</normaloff>:/logos/microwave_gen_60dp_999999_FILL0_wght100_GRAD200_opsz48.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>40</width>
-                   <height>50</height>
-                  </size>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QWidget" name="widget_sub_machine2" native="true">
-                 <layout class="QVBoxLayout" name="verticalLayout_7">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QFrame" name="btn__users">
-                    <property name="styleSheet">
-                     <string notr="true"/>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_32">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_users_machine2">
-                       <property name="text">
-                        <string>Users</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QFrame" name="btn_machine2_attendance">
-                    <property name="styleSheet">
-                     <string notr="true"/>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_33">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_attandance_machine2">
-                       <property name="text">
-                        <string>Attendance</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QFrame" name="btn_configure_machine2">
-                    <property name="styleSheet">
-                     <string notr="true"/>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
-                    </property>
-                    <layout class="QHBoxLayout" name="horizontalLayout_34" stretch="0">
-                     <property name="spacing">
-                      <number>0</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>0</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>0</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_configure_machine2">
-                       <property name="text">
-                        <string>Configure</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-              </layout>
-             </widget>
             </item>
             <item>
              <spacer name="verticalSpacer">
@@ -715,7 +837,7 @@ QRadioButton::indicator {
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>50</height>
+                <height>44</height>
                </size>
               </property>
               <property name="font">
@@ -726,29 +848,30 @@ QRadioButton::indicator {
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">QPushButton {
-    background-color:rgb(240,240,240);
+               <string notr="true">
+QPushButton {
+    background-color: #1e1e2f;
+    color: #94a3b8;
     border: none;
     border-radius: 8px;
     padding: 10px 16px;
     font-size: 13px;
     font-weight: 600;
+    text-align: left;
 }
 
 QPushButton:hover {
-    background-color: #4338CA;
-	color : white;
+    background-color: #1f6fea;
+    color: white;
 }
 
 QPushButton:pressed {
-    background-color: aqua;
+    background-color: #1558c0;
 }
-
-
 </string>
               </property>
               <property name="text">
-               <string>Settings</string>
+               <string>⚙  Settings</string>
               </property>
              </widget>
             </item>
@@ -763,7 +886,7 @@ QPushButton:pressed {
            <item>
             <widget class="QWidget" name="content_area" native="true">
              <property name="styleSheet">
-              <string notr="true">background-color : white;</string>
+              <string notr="true">background-color: #1e1e2f;</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_9">
               <property name="spacing">
@@ -783,13 +906,39 @@ QPushButton:pressed {
               </property>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_2">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>24</number>
+                </property>
+                <property name="topMargin">
+                 <number>20</number>
+                </property>
+                <property name="rightMargin">
+                 <number>24</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item>
                  <widget class="QLabel" name="label">
                   <property name="font">
                    <font>
                     <family>SimSun</family>
-                    <pointsize>13</pointsize>
+                    <pointsize>-1</pointsize>
+                    <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">
+color: #e2e8f0;
+font-size: 20px;
+font-weight: 700;
+padding-bottom: 16px;
+border-bottom: 1px solid #2a2a3d;
+margin-bottom: 16px;
+</string>
                   </property>
                   <property name="text">
                    <string>Dashboard</string>
@@ -802,18 +951,25 @@ QPushButton:pressed {
                    <bool>true</bool>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-color :rgb(240,240,240);
-border-radius :0px;</string>
+                   <string notr="true">
+QStackedWidget {
+    background-color: #1e1e2f;
+    border-radius: 0px;
+}
+</string>
                   </property>
                   <widget class="QWidget" name="page">
                    <property name="styleSheet">
-                    <string notr="true">background-color : cyan;</string>
+                    <string notr="true">background-color: #1e1e2f;</string>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_10"/>
                   </widget>
                   <widget class="QWidget" name="page_2">
                    <property name="layoutDirection">
                     <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #1e1e2f;</string>
                    </property>
                   </widget>
                  </widget>
@@ -832,7 +988,18 @@ border-radius :0px;</string>
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">
+QStatusBar {
+    background-color: #11111a;
+    color: #4a5568;
+    border-top: 1px solid #2a2a3d;
+    font-size: 11px;
+}
+</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="resources.qrc"/>

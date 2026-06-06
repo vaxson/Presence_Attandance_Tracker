@@ -27,7 +27,7 @@ class ConfigurationDevice :
         result=test_connection(ipaddress=self.ipaddress,port_number=self.portnumber)
         print("test connection")
         self.isonline=result["success"]
-        self.ui.ping_status.setText(result['status'])
+        self.ui.status.setText(result['status'])
     
     def configuration_retrieve(self) :
         retrieved=configuration_retrieve_db(configuration_id=int(self.id))

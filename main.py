@@ -45,9 +45,9 @@ date_selection=Date_selection()
 #callback return the status of test connection and update the label in configuration page
 def test_connection_status(status, message,configure_ui_id) :
     if(configure_ui_id==1) :
-        configuration_device1.ping_status.setText(message)
+        configuration_device1.ui.status.setText(message)
     elif(configure_ui_id==2) :
-        configuration_device2.ping_status.setText(message)
+        configuration_device2.ui.status.setText(message)
 '''
 
 def handle_click(obj) :
@@ -115,7 +115,7 @@ def configuration_btn_clicked(obj) :
 
 #callback function for test connection
 def test_button_clicked(configuration) :
-    configuration.ui.ping_status.setText("Please wait...")
+    configuration.ui.status.setText("Please wait...")
     configuration.ipaddress=configuration_device1.ui.ipaddress.text()
     configuration.portnumber=int(configuration.ui.portnumber.text())
     Thread(target=configuration.test_connection_clicked).start()
@@ -124,7 +124,7 @@ def cancel_clicked() :
     window.stackedwidget_content_area.setCurrentWidget(machine1_user_page.ui)
 
 def configuration_save_clicked(configuration) :
-    configuration.ui.ping_status.setText("Saving configuration, please wait...")
+    configuration.ui.status.setText("Saving configuration, please wait...")
     Thread(target=configuration.save_clicked).start()
     
 
@@ -150,7 +150,7 @@ def showhide_machineSubbuttons(status) :
 
 #Ui loads
 
-
+# ui\claud main.ui
 window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/main.ui")
 
 #machine2_user_page=user_page(device_2).ui

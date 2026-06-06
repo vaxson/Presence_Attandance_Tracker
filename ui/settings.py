@@ -108,6 +108,7 @@ class Settings :
         self.enable_payroll=bool(self.ui.enable_payroll.isChecked())
         save_settings_to_db(self)
         self.get_valuesdb()
+        self.cancel_button_clicked()
 
     def cancel_button_clicked(self) :
         self.ui.close()

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QCheckBox, QLineEdit,QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader 
-from PySide6.QtGui import QDoubleValidator
+from PySide6.QtGui import QColor, QDoubleValidator
 from services.services import fetch_users_from_db,push_software_user_to_db
 
 
@@ -15,7 +15,7 @@ class user_page() :
     def __init__(self,device) :
         self.device=device
         loader=QUiLoader()
-        self.ui=loader.load("ui/usersV2.ui")
+        self.ui=loader.load("ui/users.ui")
         self.Modeluser=[]
         self.validator=QDoubleValidator(0.00, 1000000.00, 2)
 
@@ -37,11 +37,29 @@ class user_page() :
                 self.ui.tableWidget.setItem(row_position,2,QTableWidgetItem(user.password))
                 ot_checkbox=QCheckBox()
                 ot_checkbox.user_id=user.uid
-                salary_input=QLineEdit()
-                salary_input.user_id=user.uid
+ 
+                salary_input = QLineEdit()
+                salary_input.setStyleSheet("""
+                    QLineEdit {
+                        background-color: #2a2a3d;
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #e2e8f0;
+                        border: 0px solid #3a3a55;
+                        border-radius: 1px;
+                        padding: 0px;
+                    }
+                    QLineEdit:focus {
+                        border: 0px solid #4da3ff;
+                        background-color: #252538;
+                    }
+                    QLineEdit:hover {
+                        border: 0px solid #4a4a6a;
+                    }
+                """)
+                salary_input.user_id = user.uid
                 salary_input.setPlaceholderText("Salary")
                 salary_input.setValidator(self.validator)
-
 
                 if(user.isOtEnabled) :
                     ot_checkbox.setChecked(True)
