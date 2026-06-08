@@ -46,16 +46,23 @@ def drop_database_table(device,table_number):
         table=device.device_name+"_users"
     elif table_number==2 :
         table=device.device_name+"_attendance"
+    elif table_number==3 :
+        table="devices"
     else :
         print("Invalid table number.")
         return
     drop_table(table)
 
+
+
 def create_user_table_for_device(device):
     create_user_tables(device.device_name)
 
+
+
 def create_attendance_table_for_device(device):
     create_attendance_tables(device.device_name)
+
 
 def fetch_attendance_from_db(device):
     rows=fetch_attendance_table(device.device_name)

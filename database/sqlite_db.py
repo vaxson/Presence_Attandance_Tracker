@@ -133,6 +133,7 @@ def drop_table(table):
     db_connection.commit()
     db_connection.close()
 
+
 def fetch_attendance_date_range(device_name,start_date,end_date) :
     attendance_tablename=device_name+"_attendance"
     user_tablename=device_name+"_users"
@@ -147,7 +148,6 @@ def fetch_attendance_date_range(device_name,start_date,end_date) :
                                 WHERE {attendance_tablename}.timestamp BETWEEN ? AND ?''', 
                                 __get_dbconnection__(), params=(start_date,end_date))
 
-    #
     # cursor.execute(f'''SELECT {attendance_tablename}.punch_id,{user_tablename}.name, 
     #                {attendance_tablename}.timestamp FROM {attendance_tablename} 
     #                JOIN {user_tablename} ON {attendance_tablename}.name = {user_tablename}.uid 

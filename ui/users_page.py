@@ -1,3 +1,5 @@
+from threading import Thread
+
 from PySide6.QtWidgets import QCheckBox, QLineEdit,QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader 
 from PySide6.QtGui import QColor, QDoubleValidator
@@ -18,6 +20,7 @@ class user_page() :
         self.ui=loader.load("ui/users.ui")
         self.Modeluser=[]
         self.validator=QDoubleValidator(0.00, 1000000.00, 2)
+        self.ui.Save_button.clicked.connect(self.save_user_payroll)
 
 
     def display_users(self) :
@@ -36,12 +39,40 @@ class user_page() :
                 self.ui.tableWidget.setItem(row_position,1,QTableWidgetItem(user.name))
                 self.ui.tableWidget.setItem(row_position,2,QTableWidgetItem(user.password))
                 ot_checkbox=QCheckBox()
+                ot_checkbox.setStyleSheet("""
+                    QCheckBox {
+                                spacing: 8px;
+                                font-size: 13px;
+                                color: #111827;
+                                background-color: transparent;
+                                alignment: center;
+                            }
+
+                            QCheckBox::indicator {
+                                width: 18px;
+                                height: 18px;
+                                border-radius: 18px;
+                                border: 2px solid #CBD5E1;
+                                background-color: white;
+                            }
+
+                            QCheckBox::indicator:hover {
+                                border: 2px solid #4F46E5;
+                            }
+
+
+                            QCheckBox::indicator:checked {
+                                background-color:#4F46E5;
+                                border: 2px solid #4F46E5;
+                            }
+                                            """)    
+                
                 ot_checkbox.user_id=user.uid
- 
+
                 salary_input = QLineEdit()
                 salary_input.setStyleSheet("""
                     QLineEdit {
-                        background-color: #2a2a3d;
+                        background-color: transparent;
                         font-size: 12px;
                         font-weight: bold;
                         color: #e2e8f0;
@@ -80,6 +111,11 @@ class user_page() :
 
     def save_user_payroll(self):
         print("At USP")
+        self.ui.users_label.setText("Saving Please Wait....")
+        Thread(target=self.threaded_save_user_payroll).start()
+        
+
+    def threaded_save_user_payroll(self) :
         for index,users in enumerate(self.Modelusers) :
             item_id=self.ui.tableWidget.item(index,0).text()
             item_isOtEnabled=self.ui.tableWidget.cellWidget(index,3).isChecked()
@@ -93,7 +129,9 @@ class user_page() :
             print(f" Name : {users.name} OT : {users.isOtEnabled} Salary {users.salary}")
             push_software_user_to_db(self.Modelusers)
         print(" At save_user_payroll() Saved")
+        self.ui.users_label.setText("Saved Successfully")
 
+        
 
             
         

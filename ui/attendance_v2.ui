@@ -406,43 +406,6 @@ QLabel:focus {
                 </property>
                </spacer>
               </item>
-              <item>
-               <widget class="QPushButton" name="Save_button">
-                <property name="minimumSize">
-                 <size>
-                  <width>130</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QPushButton {
-	background-color: blue;
-    border: 1px solid #d0d0d0;
-    color: #555;
-    border-radius: 6px;
-    padding: 6px 12px;
-	color : white;
-    
-}
-
-QPushButton:hover {
-   
-    border: 1px solid #c0c0c0;
-	 background-color: lightgreen;
-	color : black;
-}
-
-QPushButton:pressed {
-    background-color: #dcdcdc;
-}
-
-</string>
-                </property>
-                <property name="text">
-                 <string>Download as XLSX</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>

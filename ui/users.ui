@@ -201,7 +201,7 @@ QPushButton:pressed {
            <string notr="true">
 /* ── Table body ── */
 QTableWidget {
-    background-color: #2a2a3d;
+    background-color: transparent;
     alternate-background-color: #252538;
     color: white;
     border: none;
@@ -330,7 +330,7 @@ QTableCornerButton::section {
            <number>28</number>
           </property>
           <property name="editTriggers">
-           <set>QAbstractItemView::AllEditTriggers</set>
+           <set>QAbstractItemView::NoEditTriggers</set>
           </property>
           <property name="dragEnabled">
            <bool>true</bool>
@@ -340,6 +340,9 @@ QTableCornerButton::section {
           </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="textElideMode">
            <enum>Qt::ElideMiddle</enum>
@@ -547,7 +550,7 @@ QTableCornerButton::section {
           </column>
           <column>
            <property name="text">
-            <string>Status</string>
+            <string>Salary</string>
            </property>
            <property name="font">
             <font>

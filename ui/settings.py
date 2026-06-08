@@ -1,10 +1,12 @@
 from PySide6.QtUiTools import QUiLoader 
 from PySide6.QtWidgets import QTableWidgetItem,QCheckBox,QLineEdit
 from PySide6.QtGui import QDoubleValidator
-from services.services import fetch_settings_from_db,save_settings_to_db
+from services.services import fetch_settings_from_db,save_settings_to_db,drop_database_table
 
 class Settings :
-    def __init__(self):
+    def __init__(self, device_1, device_2):
+        self.device_1 = device_1
+        self.device_2 = device_2
         self.loader=QUiLoader()
         self.ui=self.loader.load("ui/settings.ui")
         
@@ -35,6 +37,8 @@ class Settings :
         # callback for buttons
         self.ui.btn_save.clicked.connect(self.save_button_clicked)
         self.ui.btn_cancel.clicked.connect(self.cancel_button_clicked)
+        self.ui.btn_format_attendance.clicked.connect(self.format_attendance_db)
+        self.ui.btn_format_devices.clicked.connect(self.format_devces_db)
         self.get_valuesdb()
     
     
@@ -112,3 +116,12 @@ class Settings :
 
     def cancel_button_clicked(self) :
         self.ui.close()
+
+    def format_attendance_db(self) :
+        drop_database_table(self.device_1,1)
+        drop_database_table(self.device_1,2)
+        drop_database_table(self.device_2,1)
+        drop_database_table(self.device_2,2)
+    
+    def format_devces_db(self) :
+        drop_database_table(self.device_1,3)

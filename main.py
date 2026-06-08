@@ -24,11 +24,14 @@ loader=QUiLoader()
 configuration_device1=ConfigurationDevice(1)
 configuration_device2=ConfigurationDevice(2)
 device_1=configuration_device1.device_object
+device_2=configuration_device2.device_object
 machine1_user_page=user_page(device_1)
 machine1_user_page.ui.setEnabled(True)
+machine2_user_page=user_page(device_2)
+machine2_user_page.ui.setEnabled(True)
 
 # settings page object
-settings_page=Settings()
+settings_page=Settings(device_1,device_2)
 
 #Date Selection Objects
 date_selection=Date_selection()
@@ -57,19 +60,32 @@ def handle_click(obj) :
 def user_btn_clicked(obj) :
     #drop_database_table(device_1,1)
     name=obj.objectName()
-   
+    Thread(target=configuration_device1.checkstatus).start()
+    Thread(target=configuration_device2.checkstatus).start()
     print(f"Object name: {name}")
-    result=Thread(target=fetch_user_from_device, args=(device_1,)).start()
+    Thread(target=fetch_user_from_device, args=(device_1,)).start()
+    Thread(target=fetch_user_from_device, args=(device_2,)).start()
 
     if(name=="label_users_machine1") :
-        if(not result) :
+        if(configuration_device1.isonline) :
+            machine1_user_page.ui.users_label.setText("Device Online")
+        else :
             machine1_user_page.ui.users_label.setText("Device Offline")
         print("Clicked on user machine 1")
+
         window.stackedwidget_content_area.setCurrentWidget(machine1_user_page.ui)
         machine1_user_page.display_users()
         #Thread(target=fetch_user_from_device, args=(device_1,)).start()
-    elif("label_users_machine2" in name) :
+        
+    elif name == "label_users_machine2":
+        if(configuration_device2.isonline) :
+            machine2_user_page.ui.users_label.setText("Device Online")
+        else :
+            machine2_user_page.ui.users_label.setText("Device Offline")
         print("Clicked on user machine 2")
+
+        window.stackedwidget_content_area.setCurrentWidget(machine2_user_page.ui)
+        machine2_user_page.display_users()
     
     print("Exited")
         
@@ -79,72 +95,68 @@ def attandance_btn_clicked(obj) :
     window.attendance_page=Attendance_page()
     attendance_page=window.attendance_page
     name=obj.objectName()
-    if("label_attandance_machine1" in name) :
+    if(name== "label_attandance_machine1") :
         print(f"Clicked on attendance machine 1") 
         Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
     
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
-        attendance_page.get_attendance(device_1,settings_page,start_date,end_date)
-        attendance_page.ui.show()
+        if(start_date !=None and end_date !=None) :
+            attendance_page.get_attendance(device_1,settings_page,start_date,end_date)
+            attendance_page.ui.show()
+        else :
+            print("invalid date selection")
         
 
 
-    elif("label_attandance_machine2" in name) :
+    elif(name == "label_attandance_machine2") :
         print("Clicked on attendance machine 2")
-        date_selection.ui.exec()
+        Thread(target=attendance_page.sync_attendance,args=(device_2,)).start()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
+        date_selection.ui.exec()
+        if(start_date !=None and end_date !=None) :
+            attendance_page.get_attendance(device_2,settings_page,start_date,end_date)
+            attendance_page.ui.show()
     # attendance_page=Attendance_page()
     
 #callback for configuration button machine 1 and 2
 def configuration_btn_clicked(obj) :
     name=obj.objectName()
-    if("label_configure_machine1" in name) :
+    if(name== "label_configure_machine1") :
         print("Clicked on configuration machine 1")
         window.stackedwidget_content_area.setCurrentWidget(configuration_device1.ui)
-        configuration_device1.ui.machine_name.setText("Machine 1 Configuration")
-        Thread(target=device_1.configuration_retrieve).start()
+        configuration_device1.ui.setVisible(True)
+        configuration_device1.ui.machine_name.setText(f"{device_1.device_name}+Configuration")
+        Thread(target=configuration_device1.configuration_retrieve).start()
 
-    elif("label_configure_machine2" in name) :
-        print("Clicked on configuration machine 2") 
+    elif(name== "label_configure_machine2" ) :
+        print("Clicked on configuration machine 2")
         window.stackedwidget_content_area.setCurrentWidget(configuration_device2.ui)
-        configuration_device2.ui.machine_name.setText("Machine 2 Configuration")
+        configuration_device2.ui.setVisible(True)
+        configuration_device2.ui.machine_name.setText(f"{device_2.device_name} Configuration")
         Thread(target=configuration_device2.configuration_retrieve).start()
 
 #callback function for test connection
-def test_button_clicked(configuration) :
-    configuration.ui.status.setText("Please wait...")
-    configuration.ipaddress=configuration_device1.ui.ipaddress.text()
-    configuration.portnumber=int(configuration.ui.portnumber.text())
-    Thread(target=configuration.test_connection_clicked).start()
+# def test_button_clicked(configuration) :
+#     configuration.ui.status.setText("Please wait...")
+#     configuration.ipaddress=configuration_device1.ui.ipaddress.text()
+#     configuration.portnumber=int(configuration.ui.portnumber.text())
+#     Thread(target=configuration.test_connection_clicked).start()
 
-def cancel_clicked() :
-    window.stackedwidget_content_area.setCurrentWidget(machine1_user_page.ui)
+# def cancel_clicked() :
+#     window.stackedwidget_content_area.setCurrentWidget(machine1_user_page.ui)
 
-def configuration_save_clicked(configuration) :
-    configuration.ui.status.setText("Saving configuration, please wait...")
-    Thread(target=configuration.save_clicked).start()
+# def configuration_save_clicked(configuration) :
+#     configuration.ui.status.setText("Saving configuration, please wait...")
+#     Thread(target=configuration.save_clicked).start()
     
 
 #User Page Save button click
 def users_save_clicked(users_page) :
-    users_page.ui.users_label.setText("Plese wait ")
+    users_page.ui.users_label.setText("Please wait ")
     Thread(target=users_page.save_user_payroll).start()
-
-
-
-
-
-# UI actions functions :
-def showhide_machineSubbuttons(status) :
-    if status :
-        window.widget_sub_machine2.setVisible(False)
-        window.widget_sub_machine1.setVisible(True)
-    else :
-        window.widget_sub_machine1.setVisible(True)
-        window.widget_sub_machine2.setVisible(False)
 
 
 
@@ -154,7 +166,7 @@ def showhide_machineSubbuttons(status) :
 window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/main.ui")
 
 #machine2_user_page=user_page(device_2).ui
-#window.stackedwidget_content_area.addWidget(machine2_user_page)
+window.stackedwidget_content_area.addWidget(machine2_user_page.ui)
 window.stackedwidget_content_area.addWidget(machine1_user_page.ui)
 window.stackedwidget_content_area.addWidget(configuration_device1.ui)
 window.stackedwidget_content_area.addWidget(configuration_device2.ui)   
@@ -171,13 +183,13 @@ window.settings_btn.clicked.connect(lambda :settings_page.ui.show())
 
 
 
-#Configuration page Buttons
-configuration_device1.ui.btn_test_connection.clicked.connect(lambda :test_button_clicked(configuration_device1))
-configuration_device2.ui.btn_test_connection.clicked.connect(lambda :test_button_clicked(configuration_device2))
-configuration_device1.ui.btn_cancel.clicked.connect(cancel_clicked)
-configuration_device2.ui.btn_cancel.clicked.connect(cancel_clicked)
-configuration_device1.ui.btn_save.clicked.connect(lambda: configuration_save_clicked(configuration_device1))
-configuration_device2.ui.btn_save.clicked.connect(lambda: configuration_save_clicked(configuration_device2))
+# #Configuration page Buttons
+# configuration_device1.ui.btn_test_connection.clicked.connect(lambda :test_button_clicked(configuration_device1))
+# configuration_device2.ui.btn_test_connection.clicked.connect(lambda :test_button_clicked(configuration_device2))
+# configuration_device1.ui.btn_cancel.clicked.connect(cancel_clicked)
+# configuration_device2.ui.btn_cancel.clicked.connect(cancel_clicked)
+# configuration_device1.ui.btn_save.clicked.connect(lambda: configuration_save_clicked(configuration_device1))
+# configuration_device2.ui.btn_save.clicked.connect(lambda: configuration_save_clicked(configuration_device2))
 
 #users page buttons
 machine1_user_page.ui.Save_button.clicked.connect(lambda:users_save_clicked(machine1_user_page))

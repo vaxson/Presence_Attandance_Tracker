@@ -207,7 +207,7 @@ QPushButton:pressed {
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-460</y>
+        <y>-510</y>
         <width>744</width>
         <height>1152</height>
        </rect>
@@ -1231,6 +1231,9 @@ QRadioButton::indicator:checked {
                  </item>
                  <item>
                   <widget class="QRadioButton" name="hourly_ot">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="text">
                     <string>Hourly OT</string>
                    </property>
@@ -1789,7 +1792,7 @@ QRadioButton::indicator:checked {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QPushButton" name="btn_format_attendance">
             <property name="maximumSize">
              <size>
               <width>220</width>
@@ -1823,7 +1826,7 @@ QPushButton:pressed {
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="btn_format_devices">
             <property name="maximumSize">
              <size>
               <width>220</width>
