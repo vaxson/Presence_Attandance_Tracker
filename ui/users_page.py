@@ -2,7 +2,7 @@ from threading import Thread
 
 from PySide6.QtWidgets import QCheckBox, QLineEdit,QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader 
-from PySide6.QtGui import QColor, QDoubleValidator
+from PySide6.QtGui import QDoubleValidator
 from services.services import fetch_users_from_db,push_software_user_to_db
 
 

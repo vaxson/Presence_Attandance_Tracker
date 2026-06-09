@@ -16,7 +16,7 @@ class ConfigurationDevice() :
         self.configuration_retrieve()
         # /self.device_object=None
         self.device_object=get_device_connection(ipaddress=self.ipaddress,port_number=self.portnumber,device_name=self.machine_name)
-        self.checkstatus()
+        Thread(target=self.checkstatus).start()
         self.ui.btn_test_connection.clicked.connect(self.test_connection_clicked)
         self.ui.btn_save.clicked.connect(self.save_clicked)
         self.ui.btn_cancel.clicked.connect(self.close_clicked)
@@ -32,7 +32,7 @@ class ConfigurationDevice() :
         Thread(target=self.thread_test_connection).start()
 
     def thread_test_connection(self) :
-        test_status=test_connection(ipaddress=self.ui.ipaddress.text(),port_number=int(self.ui.portnumber.text()))
+        test_status=test_connection(ipaddress=self.ipaddress,port_number=self.portnumber)
         if(test_status["success"]) :
             self.ui.status.setText("Connection successful.")
         else :

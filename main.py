@@ -19,6 +19,10 @@ loader=QUiLoader()
 # device1_name="k30"
 # device_1=get_device_connection(ipaddress=device1_ipaddress,port_number=4370,device_name=device1_name)
 
+        
+loading_page=loader.load("ui/loading_page.ui")
+loading_page.show()
+app.processEvents()
 
 #Configure device objects
 configuration_device1=ConfigurationDevice(1)
@@ -29,7 +33,6 @@ machine1_user_page=user_page(device_1)
 machine1_user_page.ui.setEnabled(True)
 machine2_user_page=user_page(device_2)
 machine2_user_page.ui.setEnabled(True)
-
 # settings page object
 settings_page=Settings(device_1,device_2)
 
@@ -231,5 +234,6 @@ for user, row in enumerate(user_data):
 '''
 
 window.show()
+loading_page.close()
 app.exec()
 
