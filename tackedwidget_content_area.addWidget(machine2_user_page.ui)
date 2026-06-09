@@ -1,0 +1,125 @@
+[33mcommit f9fa690ea760eb24cfe8426d562c579b3f79d9e3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAttendance_module[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Tue Jun 9 01:14:15 2026 +0530
+
+    Working on user_page save button
+
+[33mcommit 4b2390b6454015d72ff743e2c3864000723ca96b[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Sun Jun 7 01:19:55 2026 +0530
+
+    added dark themed configuration
+
+[33mcommit c205218a5176de6bef0d77501fdd9b94adff1c5a[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Fri Jun 5 00:25:27 2026 +0530
+
+    [WIP : Attendance Module]
+
+[33mcommit b5a8ddd6c46bda08c3956236522175fcd0fc9aef[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Fri May 29 23:46:02 2026 +0530
+
+    [WIP] : analyitics of attendance
+
+[33mcommit 0247229c44eb10931ce129e0fde5a090cf657184[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Thu May 21 23:48:39 2026 +0530
+
+    half day added
+
+[33mcommit 0a541764d81b0d41b85d10bc6eec266d2205eabd[m[33m ([m[1;31morigin/Attendance_module[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Thu May 21 00:27:24 2026 +0530
+
+    [WIP]: work hours and status calculated
+
+[33mcommit 56ea6659b15943a57214b346b577d2a5edb49d23[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Sat May 16 18:31:58 2026 +0530
+
+    Added settings button and ui
+
+[33mcommit 667faff502fd6a05d67ffed804897943170851e1[m[33m ([m[1;31morigin/Settings_module[m[33m, [m[1;32mSettings_module[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Thu May 7 01:51:01 2026 +0530
+
+    Added work hour calculation | Salary yet to calculate
+
+[33mcommit 7a6c99d39b37c75eeba124d558981e701dd5ce29[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Tue May 5 13:56:54 2026 +0530
+
+    Absent days linked
+
+[33mcommit 13f706b6a1be902080014d71ac05c8bd3d037956[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Mon May 4 01:04:32 2026 +0530
+
+    Restored messed up main.py
+
+[33mcommit 8d41aa2d820b5872dca0763271cffb0936d2b2ef[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Sat May 2 18:34:15 2026 +0530
+
+    Working till date selection,added user list based dataFrame attendance
+
+[33mcommit 06c0893f10e2b537653c9ed6702298f460a37984[m[33m ([m[1;31morigin/Attendance_date_Selection[m[33m, [m[1;32mAttendance_date_Selection[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Fri May 1 01:02:04 2026 +0530
+
+    Fixingg bugs 30-april
+
+[33mcommit 8fde301055670fed226e47a1b03d0b6471398508[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Tue Apr 28 00:52:23 2026 +0530
+
+    Attendance date selection dialogue box implemented
+
+[33mcommit 441d4cd740db85bf5e5dfcb64fd83c5fd45a22a8[m[33m ([m[1;31morigin/user_page[m[33m, [m[1;32muser_page[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Fri Apr 24 01:10:24 2026 +0530
+
+    DB files removed
+
+[33mcommit e54097b74d1f6bbed0b5f46aaf8e3bece709009c[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Fri Apr 24 01:02:06 2026 +0530
+
+    User page and salary/OT input completed
+
+[33mcommit ff74e3e5d675229eb9f38820e14c567a67fc2aed[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Mon Apr 20 13:27:49 2026 +0530
+
+    Test user not running
+
+[33mcommit 230a9de42a9ec0b414ab2dfb993bb20caecee23c[m[33m ([m[1;31morigin/test_connection[m[33m, [m[1;32mtest_connection[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Wed Apr 15 21:49:14 2026 +0530
+
+    git_ignore_added
+
+[33mcommit 89b7f5aba98a14c621f8addd67d21aa40406c6b6[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Mon Apr 13 10:28:02 2026 +0530
+
+    Test connection threaded
+
+[33mcommit 1833f20f0da28966b63642c2b1e010abba305975[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Sun Apr 12 20:38:24 2026 +0530
+
+    recalled ClickFilter
+
+[33mcommit 649598d8c11801abed12f88b47252a5af1249e53[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Sun Apr 12 13:34:03 2026 +0530
+
+    added test connection feature
+
+[33mcommit 52840c9a901aee2a62ca72658982b800993a4fdb[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: vaxson varghese <vaxson123@gmail.com>
+Date:   Wed Apr 8 00:53:35 2026 +0530
+
+    Initial commit- completed core

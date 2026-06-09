@@ -1,7 +1,6 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QHeaderView, QRadioButton, QTableWidgetItem, QWidget 
 from services.services import *
-from datetime import datetime
 import pandas as pd
 from services.analytics import user_get_attendance
 
