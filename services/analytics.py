@@ -108,7 +108,7 @@ def calculations(settings,user_object) :
     min_OT=settings.min_OT_duration
     
     # Attendance calculation variables
-    minimum_duration=2.5
+    minimum_duration=2
     full_duration=None
     half_duration=None
 

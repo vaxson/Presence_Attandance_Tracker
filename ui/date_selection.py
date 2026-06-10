@@ -49,10 +49,12 @@ class Date_selection():
         self.start_date=datetime(self.ui.start_date.date().year(), self.ui.start_date.date().month(), self.ui.start_date.date().day())
         self.end_date=datetime(self.ui.end_date.date().year(), self.ui.end_date.date().month(), self.ui.end_date.date().day())
         self.end_date=self.end_date.combine(self.end_date, end_time)
+        print(f"Start :{self.start_date} | End : {self.end_date}")
         self.ui.accept()
+        
 
     def rejec(self):
         print("Date selection cancelled")
         self.start_date = None
         self.end_date = None
-        self.ui.reject()
+        self.ui.close()

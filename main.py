@@ -116,9 +116,9 @@ def attandance_btn_clicked(obj) :
     elif(name == "label_attandance_machine2") :
         print("Clicked on attendance machine 2")
         Thread(target=attendance_page.sync_attendance,args=(device_2,)).start()
+        date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
-        date_selection.ui.exec()
         if(start_date !=None and end_date !=None) :
             attendance_page.get_attendance(device_2,settings_page,start_date,end_date)
             attendance_page.ui.show()

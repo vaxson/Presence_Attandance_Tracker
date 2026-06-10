@@ -66,8 +66,10 @@ class Attendance_page(QWidget):
         
 
     def get_attendance(self,device,settings_object,start_date,end_date) :
+        print("At Get Attendance")
         self.start_date=start_date
         self.end_date=end_date
+        modelusers=None
         modelusers=user_get_attendance(device,settings_object,start_date,end_date)
         self.fill_radiobtn(modelusers)
     
@@ -133,6 +135,8 @@ class Attendance_page(QWidget):
 
     
     def update_table(self,attendance_dataFrame) :
+        self.ui.attendance_table.clearContents()
+        self.ui.attendance_table.setRowCount(0)
         self.ui.attendance_table.setRowCount(len(attendance_dataFrame))
         self.ui.attendance_table.setColumnCount(len(attendance_dataFrame.columns))
         # self.ui.attendance_table.setHorizontalHeaderLabels(attendance_dataFrame.columns)
