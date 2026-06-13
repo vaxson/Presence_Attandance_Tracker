@@ -152,7 +152,7 @@ def calculations(settings,user_object) :
                     status="Full_Day"
                 elif(work_hours> full_duration + min_OT):
                     status="Over_Time"
-                work_hours=work_hours-break_duration
+                # work_hours=work_hours-break_duration
 
             elif(aggregate.time >2):
                 full_duration=work_duration 

@@ -32,7 +32,8 @@ class ConfigurationDevice() :
         Thread(target=self.thread_test_connection).start()
 
     def thread_test_connection(self) :
-        test_status=test_connection(ipaddress=self.ipaddress,port_number=self.portnumber)
+        test_status=test_connection(ipaddress=self.ui.ipaddress.text(),port_number=int(self.ui.portnumber.text()))
+        print(f"IP :{self.ui.ipaddress.text()} | PORT : {self.ui.portnumber.text()}")
         if(test_status["success"]) :
             self.ui.status.setText("Connection successful.")
         else :
@@ -55,6 +56,9 @@ class ConfigurationDevice() :
 
     def save_clicked(self):
         save_status=configuration_save(self.id,self.ui.devicename.text(),self.ui.ipaddress.text(),int(self.ui.portnumber.text()))
+        self.configuration_retrieve()
+        self.device_object=get_device_connection(ipaddress=self.ipaddress,port_number=self.portnumber,device_name=self.machine_name)
+
         self.ui.status.setText(save_status['status'])
 
     def close_clicked(self) :

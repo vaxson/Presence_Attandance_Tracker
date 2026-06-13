@@ -39,6 +39,7 @@ settings_page=Settings(device_1,device_2)
 #Date Selection Objects
 date_selection=Date_selection()
 
+
 #Attendance page object
 # attendance_page=Attendance_page()
 
@@ -55,23 +56,49 @@ def test_connection_status(status, message,configure_ui_id) :
     elif(configure_ui_id==2) :
         configuration_device2.ui.status.setText(message)
 '''
+def sync() :
+    Thread(target=configuration_device1.checkstatus).start()
+    Thread(target=configuration_device2.checkstatus).start()
+    # if(configuration_device1.isonline) :
+    #     window.rbtn_machine1.styleSheet("""
+    #                 QRadioButton {
+    #                         border: 0px solid #4a4a6a;
+    #                     }
+    #                 """)
+    # if(configuration_device2.isonline) :
+    #     window.rbtn_machine2.styleSheet("""
+    #                 QRadioButton {
+    #                         border: 0px solid #4a4a6a;
+    #                     }
+    #                 """)
 
-def handle_click(obj) :
-    pass
+sync()
 
+def syncMachine(device,attendance_page) :
+    print("00%")
+    window.progressBar.setVisible(True)
+    fetch_user_from_device(device)
+    window.progressBar.setValue(50)
+    print("50%")
+    if(attendance_page) :
+        attendance_page.sync_attendance(device)
+    window.progressBar.setValue(100)
+    print("100%")
+    window.progressBar.setVisible(False)
+
+        
+        
 #callback for user button machine 1 and 2
 def user_btn_clicked(obj) :
     #drop_database_table(device_1,1)
     name=obj.objectName()
-    Thread(target=configuration_device1.checkstatus).start()
-    Thread(target=configuration_device2.checkstatus).start()
     print(f"Object name: {name}")
-    Thread(target=fetch_user_from_device, args=(device_1,)).start()
-    Thread(target=fetch_user_from_device, args=(device_2,)).start()
-
     if(name=="label_users_machine1") :
         if(configuration_device1.isonline) :
             machine1_user_page.ui.users_label.setText("Device Online")
+            Thread(target=syncMachine, args=(device_1,None)).start()
+            # Thread(target=fetch_user_from_device, args=(device_1,)).start()
+
         else :
             machine1_user_page.ui.users_label.setText("Device Offline")
         print("Clicked on user machine 1")
@@ -83,13 +110,17 @@ def user_btn_clicked(obj) :
     elif name == "label_users_machine2":
         if(configuration_device2.isonline) :
             machine2_user_page.ui.users_label.setText("Device Online")
+            print(type(device_2))
+            syncMachine(device_2,None)
+            # Thread(target=fetch_user_from_device, args=(device_2,)).start()
+
         else :
             machine2_user_page.ui.users_label.setText("Device Offline")
         print("Clicked on user machine 2")
 
         window.stackedwidget_content_area.setCurrentWidget(machine2_user_page.ui)
         machine2_user_page.display_users()
-    
+    sync()
     print("Exited")
         
 
@@ -100,7 +131,8 @@ def attandance_btn_clicked(obj) :
     name=obj.objectName()
     if(name== "label_attandance_machine1") :
         print(f"Clicked on attendance machine 1") 
-        Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
+        Thread(target=syncMachine, args=(device_1,attendance_page)).start()
+        # Thread(target=attendance_page.sync_attendance,args=(device_1,)).start()
     
         date_selection.ui.exec()
         start_date=date_selection.start_date
@@ -112,10 +144,10 @@ def attandance_btn_clicked(obj) :
             print("invalid date selection")
         
 
-
     elif(name == "label_attandance_machine2") :
         print("Clicked on attendance machine 2")
-        Thread(target=attendance_page.sync_attendance,args=(device_2,)).start()
+        syncMachine(device_2,attendance_page)
+        # Thread(target=attendance_page.sync_attendance,args=(device_2,)).start()
         date_selection.ui.exec()
         start_date=date_selection.start_date
         end_date=date_selection.end_date
@@ -123,6 +155,8 @@ def attandance_btn_clicked(obj) :
             attendance_page.get_attendance(device_2,settings_page,start_date,end_date)
             attendance_page.ui.show()
     # attendance_page=Attendance_page()
+    sync()
+
     
 #callback for configuration button machine 1 and 2
 def configuration_btn_clicked(obj) :
@@ -140,6 +174,8 @@ def configuration_btn_clicked(obj) :
         configuration_device2.ui.setVisible(True)
         configuration_device2.ui.machine_name.setText(f"{device_2.device_name} Configuration")
         Thread(target=configuration_device2.configuration_retrieve).start()
+    sync()
+
 
 #callback function for test connection
 # def test_button_clicked(configuration) :
@@ -178,7 +214,6 @@ window.widget_sub_machine2.setVisible(False)
 
 
 #clickfilter function to detect click on label and show user data in table
-window.clickfilter=ClickFilter(handle_click)
 window.users_click=ClickFilter(user_btn_clicked)
 window.attendance_click=ClickFilter(attandance_btn_clicked)
 window.configuration_click=ClickFilter(configuration_btn_clicked)
@@ -210,6 +245,7 @@ window.label_attandance_machine1.device=device_1
 
 window.widget_sub_machine1.setVisible(True)
 window.widget_sub_machine2.setVisible(True)
+window.progressBar.setVisible(False)
 
 #window.rbtn_machine1.toggled.connect(showhide_machineSubbuttons)
 
