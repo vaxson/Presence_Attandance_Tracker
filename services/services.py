@@ -48,6 +48,7 @@ def drop_database_table(device,table_number):
         table=device.device_name+"_attendance"
     elif table_number==3 :
         table="devices"
+        print("DROP DEV AT SER:15")
     else :
         print("Invalid table number.")
         return

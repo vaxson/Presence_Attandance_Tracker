@@ -125,3 +125,4 @@ class Settings :
     
     def format_devces_db(self) :
         drop_database_table(self.device_1,3)
+        print(f"Format dev clicked")

@@ -24,6 +24,10 @@ def __get_dbconnection__():
     db_connection=sqlite3.connect("database/attendance.db")
     return db_connection
 
+def __get_dbconnection_devicesDB__():
+    db_connection=sqlite3.connect("database/devices.db")
+    return db_connection
+
 #create user table for device
 def create_user_tables(device_name):
     User_tablename=device_name+"_users"
@@ -126,7 +130,11 @@ def fetch_user_table(device_name) :
 
 #droping a table from database
 def drop_table(table):
-    db_connection=__get_dbconnection__()
+    if ("devices" in table) :
+        db_connection=__get_dbconnection_devicesDB__()
+        print("DB @ Dev | SQDB :135")
+    else :
+        db_connection=__get_dbconnection__()
     cursor=db_connection.cursor()
     print(f"Deleting {table} table.....")
     cursor.execute(f'''DROP TABLE IF EXISTS {table}''')

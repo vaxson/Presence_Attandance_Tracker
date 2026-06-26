@@ -225,7 +225,7 @@ QPushButton:pressed {
            <item>
             <widget class="QLineEdit" name="devicename">
              <property name="placeholderText">
-              <string>ESSL K30</string>
+              <string>ESSL_K30 | (Do not use space)</string>
              </property>
             </widget>
            </item>

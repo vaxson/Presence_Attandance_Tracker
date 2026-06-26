@@ -384,7 +384,7 @@ QPushButton:pressed {
                        <enum>Qt::LeftToRight</enum>
                       </property>
                       <property name="placeholderText">
-                       <string>In Minutes Eg: 15</string>
+                       <string>In Hours Eg: 0.25</string>
                       </property>
                      </widget>
                     </item>
@@ -493,7 +493,7 @@ QPushButton:pressed {
                        <enum>Qt::LeftToRight</enum>
                       </property>
                       <property name="placeholderText">
-                       <string>In Minutes Eg: 15</string>
+                       <string>In Hours Eg: 0.25</string>
                       </property>
                      </widget>
                     </item>
@@ -605,7 +605,7 @@ QPushButton:pressed {
                        <enum>Qt::LeftToRight</enum>
                       </property>
                       <property name="placeholderText">
-                       <string>In Minutes Eg: 15</string>
+                       <string>In Hours Eg: 0.25</string>
                       </property>
                      </widget>
                     </item>
@@ -726,7 +726,7 @@ QPushButton:pressed {
                        <enum>Qt::LeftToRight</enum>
                       </property>
                       <property name="placeholderText">
-                       <string>In Minutes Eg: 15</string>
+                       <string>In Hours Eg: 0.25</string>
                       </property>
                      </widget>
                     </item>
