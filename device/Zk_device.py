@@ -10,7 +10,7 @@ class Zk_device :
         self.connection=None
 
     def Connect(self):
-        zk=ZK(self.ip_address,self.port,self.timeout)
+        zk=ZK(self.ip_address,self.port,self.timeout,ommit_ping=True)
         try:
             print(f"Connecting to device......IP :{self.ip_address} name : {self.device_name}")
             self.connection=zk.connect()
