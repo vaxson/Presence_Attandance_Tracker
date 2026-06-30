@@ -4,7 +4,8 @@ from PySide6.QtWidgets import QCheckBox, QLineEdit,QTableWidgetItem
 from PySide6.QtUiTools import QUiLoader 
 from PySide6.QtGui import QDoubleValidator
 from services.services import fetch_users_from_db,push_software_user_to_db
-
+from utils.helper import PyInstaller_helper
+resource_path=PyInstaller_helper.resource_path
 
 '''
     * Note The user_page needs device object as the parameter 
@@ -17,7 +18,7 @@ class user_page() :
     def __init__(self,device) :
         self.device=device
         loader=QUiLoader()
-        self.ui=loader.load("ui/users.ui")
+        self.ui=loader.load(resource_path("ui/users.ui"))
         self.Modeluser=[]
         self.validator=QDoubleValidator(0.00, 1000000.00, 2)
         self.ui.Save_button.clicked.connect(self.save_user_payroll)

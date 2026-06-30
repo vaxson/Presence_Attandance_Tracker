@@ -1,7 +1,23 @@
+#TODO
+to_do_list.txt
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
-*.db
-tempCodeRunnerFile.py
+
+# Environment
 .env
-to_do_list.txt
+
+# Databases
+*.db
+
+# PyInstaller
+build/
+dist/
+
+# VS Code
+.vscode/
+
+# Temporary
+tempCodeRunnerFile.py

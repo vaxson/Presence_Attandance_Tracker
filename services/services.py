@@ -109,8 +109,9 @@ def fetch_users_salary_isOtEnabled_from_db(device) :
 
 '''
 def fetch_attendance_daterange(device,start_date,end_date):
-    print(f"ser111 name :{device.device_name} |st dt {start_date} | end : {end_date}")
+    # print(f"ser111 name :{device.device_name} |st dt {start_date} | end : {end_date}")
     dataFrame=fetch_attendance_date_range(device.device_name,start_date,end_date)
+    # print(f"ser :114 | dataFrame : {dataFrame} ")
     return {"success":True,"result":dataFrame}
 
 

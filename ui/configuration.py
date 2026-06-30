@@ -1,6 +1,10 @@
 from PySide6.QtUiTools import QUiLoader
 from services.services import test_connection,configuration_retrieve_db,configuration_save,get_device_connection
 from threading import Thread
+import sys
+from utils.helper import PyInstaller_helper
+resource_path=PyInstaller_helper.resource_path
+
 
 
 class ConfigurationDevice() :
@@ -12,7 +16,7 @@ class ConfigurationDevice() :
         self.portnumber=""
         self.ping_status=None
         loader=QUiLoader()
-        self.ui=loader.load("ui/configuration.ui")
+        self.ui=loader.load(resource_path("ui/configuration.ui"))
         self.configuration_retrieve()
         # self.device_object=None
         self.device_object=get_device_connection(ipaddress=self.ipaddress,port_number=self.portnumber,device_name=self.machine_name)

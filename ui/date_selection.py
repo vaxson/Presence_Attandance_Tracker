@@ -1,12 +1,14 @@
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QDate
 from datetime import datetime, time
+from utils.helper import PyInstaller_helper
+resource_path=PyInstaller_helper.resource_path
 
 
 class Date_selection(): 
     def __init__(self):
         loader = QUiLoader()
-        self.ui = loader.load("ui/date_selection.ui")
+        self.ui = loader.load(resource_path("ui/date_selection.ui"))
         self.start_date = None
         self.end_date = None
 

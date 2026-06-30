@@ -74,10 +74,12 @@ def user_get_attendance(device,settings,start_date,end_date):
         dataFrame=dataFrame.sort_values("timestamp")
         dataFrame["date"]=dataFrame["timestamp"].dt.floor("D")
         dataFrame["time"]=dataFrame["timestamp"].dt.time
+        
         for user in users_list :
             print(f"user Name : {user.name}")
             user.dataFrame=dataFrame[dataFrame["name"]==user.name]
             all_date=all_dates.merge(user.dataFrame,on="date",how="left").sort_values(["date","time"])
+            
             # print(f"USR DF {user.dataFrame}")
             # print(f"All Dates : {all_dates}")
             # print(f"ALl DATE : {all_date}")
@@ -111,8 +113,11 @@ def calculations(settings,user_object) :
     minimum_duration=2
     full_duration=None
     half_duration=None
-
-    aggregate_dataFrame=user_dataFrame.groupby("date")["time"].agg("count").reset_index()
+    punch_series=user_dataFrame.groupby("date")
+    aggregate_dataFrame=punch_series["time"].agg("count").reset_index()
+    aggregate_dataFrame["punches"]=punch_series["time"].agg(list).values
+    
+    # print(f"anl :118 :{aggregate_dataFrame}")
     # Iterates over each dates
     for aggregate in aggregate_dataFrame.itertuples() :
         
@@ -183,7 +188,7 @@ def calculations(settings,user_object) :
             aggregate_dataFrame.loc[aggregate.Index,"hours"]=0
             continue
         
-    user_dataFrame=aggregate_dataFrame[["date","status","hours"]]
+    user_dataFrame=aggregate_dataFrame[["date","status","hours","punches"]]
     user_object.dataFrame=user_dataFrame
     # print(f"User Attendance : {user_object.dataFrame}")
     # print(f"User Aggregate : {aggregate_dataFrame}")

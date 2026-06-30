@@ -2,13 +2,17 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QTableWidgetItem,QCheckBox,QLineEdit
 from PySide6.QtGui import QDoubleValidator
 from services.services import fetch_settings_from_db,save_settings_to_db,drop_database_table
+from utils.helper import PyInstaller_helper
+resource_path=PyInstaller_helper.resource_path
+
+
 
 class Settings :
     def __init__(self, device_1, device_2):
         self.device_1 = device_1
         self.device_2 = device_2
         self.loader=QUiLoader()
-        self.ui=self.loader.load("ui/settings.ui")
+        self.ui=self.loader.load(resource_path("ui/settings.ui"))
         
         # settings Variables
         self.entry_id=1

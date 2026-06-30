@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
+    <width>1212</width>
     <height>651</height>
    </rect>
   </property>
@@ -419,13 +419,19 @@ QLabel:focus {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>622</width>
+                <width>916</width>
                 <height>545</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
                 <widget class="QTableWidget" name="attendance_table">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">
 QTableWidget {
@@ -451,10 +457,11 @@ QTableWidget::item:hover {
 QHeaderView::section {
     background-color: transparent;
     color: #94A3B8;
-    padding: 14px;
     border-radius :0px;
     font-size: 12px;
     font-weight: 600;
+    text-align :left;
+	padding-left :10px;
 }
 
 QTableCornerButton::section {
@@ -506,8 +513,11 @@ QTableWidget::item:selected {
                  <attribute name="horizontalHeaderDefaultSectionSize">
                   <number>111</number>
                  </attribute>
+                 <attribute name="horizontalHeaderHighlightSections">
+                  <bool>false</bool>
+                 </attribute>
                  <attribute name="horizontalHeaderStretchLastSection">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </attribute>
                  <attribute name="verticalHeaderVisible">
                   <bool>false</bool>
@@ -632,7 +642,7 @@ QTableWidget::item:selected {
                  </column>
                  <column>
                   <property name="text">
-                   <string>Action</string>
+                   <string>Punches</string>
                   </property>
                  </column>
                 </widget>

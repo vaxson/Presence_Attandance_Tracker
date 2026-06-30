@@ -1,15 +1,20 @@
 from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QHeaderView, QRadioButton, QTableWidgetItem, QWidget 
 from services.services import *
 import pandas as pd
 from services.analytics import user_get_attendance
+from utils.helper import PyInstaller_helper
+resource_path=PyInstaller_helper.resource_path
+
+
 
 class Attendance_page(QWidget): 
     def __init__(self):
         super().__init__()
         self.radio_buttons_list=[]
         loader=QUiLoader()
-        self.ui=loader.load("ui/attendance_v2.ui")
+        self.ui=loader.load(resource_path("ui/attendance.ui"))
         # self.ui.lab_table_name.setText("Attendance")
         self.start_date=None
         self.end_date=None
@@ -25,7 +30,9 @@ class Attendance_page(QWidget):
         header = self.ui.attendance_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.Stretch)
+
         # Progressbar initialization to 0
         self.ui.attendance_persentage.setValue(0)
 
@@ -92,7 +99,6 @@ class Attendance_page(QWidget):
         radio=self.sender()
         user_object=radio.modeluser
         attendance_dataFrame=user_object.dataFrame
-
         # Update Tab above the table.
         self.ui.user_id.setText(str(user_object.uid))
         self.ui.user_name.setText(str(user_object.name))
@@ -140,16 +146,27 @@ class Attendance_page(QWidget):
         self.ui.attendance_table.setRowCount(len(attendance_dataFrame))
         self.ui.attendance_table.setColumnCount(len(attendance_dataFrame.columns))
         # self.ui.attendance_table.setHorizontalHeaderLabels(attendance_dataFrame.columns)
+        # print(f"Dataframe | ATTPG 143:{attendance_dataFrame}")
         row_count=0
         for row in attendance_dataFrame.itertuples() :
+            punches_text=""
             date=row[1].strftime('%d-%m-%y')
             time=round(row[3], 2)
             date=QTableWidgetItem(str(date))
             time=QTableWidgetItem(str(time))
             status=QTableWidgetItem(str(row[2]))
+            for punch in row[4] :
+                if(pd.isna(punch)==False) :
+                    punches_text+=punch.strftime("%H:%M")
+                    punches_text+="  |  "
+                else :
+                    punches_text="Absent"
+            punches=QTableWidgetItem(punches_text)
+            punches.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
             self.ui.attendance_table.setItem(row_count,0,date)
             self.ui.attendance_table.setItem(row_count,1,time)
             self.ui.attendance_table.setItem(row_count,2,status)
+            self.ui.attendance_table.setItem(row_count,3,punches)
             row_count +=1
         # Defines the length of the table. 
         # Wrong inputs reduces the table visibility

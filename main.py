@@ -9,7 +9,8 @@ from ui.configuration import ConfigurationDevice
 from ui.date_selection import Date_selection
 from ui.attendance_page import Attendance_page
 from threading import Thread
-
+from utils.helper.PyInstaller_helper import resource_path
+# resource_path=PyInstaller_helper.resource_path
 app=QApplication([])
 loader=QUiLoader()
 
@@ -20,7 +21,7 @@ loader=QUiLoader()
 # device_1=get_device_connection(ipaddress=device1_ipaddress,port_number=4370,device_name=device1_name)
 
 
-loading_page=loader.load("ui/loading_page.ui")
+loading_page = loader.load(resource_path("ui/loading_page.ui"))
 loading_page.show()
 app.processEvents()
 
@@ -246,8 +247,8 @@ def users_save_clicked(users_page) :
 #Ui loads
 
 # ui\claud main.ui
-window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/main.ui")
-
+# window=loader.load("C:/Users/vaxso/Desktop/Attandance Management system/ui/main.ui")
+window=loader.load(resource_path("ui/main.ui"))
 #machine2_user_page=user_page(device_2).ui
 window.stackedwidget_content_area.addWidget(init.machine2_user_page.ui)
 window.stackedwidget_content_area.addWidget(init.machine1_user_page.ui)

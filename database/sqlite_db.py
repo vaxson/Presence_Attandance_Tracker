@@ -1,6 +1,6 @@
 import sqlite3
-
 import pandas as pd
+from utils.helper.PyInstaller_helper import database_path
 '''
 Methords and definitions for database handling and operations.
 * __get_dbconnection__() : Establishes a connection to the SQLite database. (INTERNAL USE ONLY)
@@ -21,11 +21,11 @@ Methords and definitions for database handling and operations.
 '''
 
 def __get_dbconnection__():
-    db_connection=sqlite3.connect("database/attendance.db")
+    db_connection=sqlite3.connect(database_path("attendance.db"))
     return db_connection
 
 def __get_dbconnection_devicesDB__():
-    db_connection=sqlite3.connect("database/devices.db")
+    db_connection=sqlite3.connect(database_path("devices.db"))
     return db_connection
 
 #create user table for device
@@ -177,7 +177,7 @@ def combine_attendance_user() :
 
 
 def store_device_information(device_id,device_name,ip_address,port_number) :
-    db_connection=sqlite3.connect("database/devices.db")
+    db_connection=sqlite3.connect(database_path("devices.db"))
     cursor=db_connection.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS devices (
                         device_id INTEGER PRIMARY KEY,
@@ -190,7 +190,7 @@ def store_device_information(device_id,device_name,ip_address,port_number) :
 
 
 def retrieve_device_information(device_id) :
-    db_connection=sqlite3.connect("database/devices.db")
+    db_connection=sqlite3.connect(database_path("devices.db"))
     cursor=db_connection.cursor()
     cursor.execute('''SELECT * FROM devices WHERE device_id = ?''', (device_id,))
     rows=cursor.fetchone()
@@ -200,7 +200,7 @@ def retrieve_device_information(device_id) :
 
 
 def store_settings(entry_id,work_duration, break_duration, grace_time, min_OT_duration, paid_leaves, num_days, OT_multiplier,salary_method,OT_method, early_checkout_deduction, enable_payroll) :
-    db_connection=sqlite3.connect("database/settings.db")
+    db_connection=sqlite3.connect(database_path("settings.db"))
     cursor=db_connection.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS settings (
                    entry_id INTEGER PRIMARY KEY,
@@ -231,7 +231,7 @@ def store_settings(entry_id,work_duration, break_duration, grace_time, min_OT_du
 
 
 def retrieve_settings() :
-    db_connection=sqlite3.connect("database/settings.db")
+    db_connection=sqlite3.connect(database_path("settings.db"))
     cursor=db_connection.cursor()
     cursor.execute('''SELECT * FROM settings''')
     rows=cursor.fetchone()
