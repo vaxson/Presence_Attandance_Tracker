@@ -10,14 +10,19 @@ __pycache__/
 .env
 
 # Databases
-*.db
+database/*.db
+dist/Database/
 
 # PyInstaller
 build/
 dist/
+*.spec
 
 # VS Code
 .vscode/
 
 # Temporary
 tempCodeRunnerFile.py
+
+# Accidental files
+tackedwidget_content_area.addWidget(machine2_user_page.ui)
