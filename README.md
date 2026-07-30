@@ -37,6 +37,12 @@ You'll need Python 3.11+ and a ZKTeco device on the same network.
 Ideally, disable DHCP on the ZKTeco device and use port number 4370.
 Setup the device with the software by clicking the configure button on the software.
 
+```bash
+pip install -r requirements.txt
+python main.py
+```
+---
+
 ## Configuration on software
 
 Once the ZKTeco device is connected, click on `Configuration` button and add Device IP, Port Number and Name.
@@ -45,11 +51,6 @@ Once the ZKTeco device is connected, click on `Configuration` button and add Dev
 You can use the `Test connection` button in the configuration page to 
 verify that the device is connected and the software can access the device.
 
-
-```bash
-pip install -r requirements.txt
-python main.py
-```
 
 ---
 
