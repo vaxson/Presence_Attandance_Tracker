@@ -47,6 +47,7 @@ verify that the device is connected and the software can access the device.
 
 
 ```bash
+pip install -r requirements.txt
 python main.py
 ```
 
